@@ -19,3 +19,28 @@ function makeCalendar(date, $output) {
   }
   $output.append($table);
 }
+
+// その月のカレンダーリストを作成する
+// date:Dateオブジェクト
+function makeCalendarList(date) {
+  var year  = date.getFullYear();
+  var month = date.getMonth();
+  var firstDate = new Date(year, month, 1);
+  var firstWeek = firstDate.getDay();
+
+  var maxDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  // うるう年なら2月を29日までにする
+  if(year % 4 === 0 || year % 100 !== 0 || year % 400 === 0) {
+    maxDays[1] = 29;
+  }
+
+  var calList = new Array(7 * 5);
+  for(var i = 0; i < calList.length; i++) {
+    calList[i] = ' ';
+  }
+  for(var i = 0; i < maxDays[month]; i++) {
+    calList[i + firstWeek] = i + 1;
+  }
+
+  return calList;
+}
