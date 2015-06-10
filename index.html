@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="handlebars-v3.0.3.js"></script>
+<script type="text/javascript" src="mylib.js"></script>
+<script type="text/javascript">
+$(function() {
+  var values = new Array(7 * 5);
+  for(var i = 0; i < 7 * 5; i++) {
+    values[i] = i;
+  }
+  makeCalendar(values, $('#output'));
+});
+</script>
+<title>年間シート予約</title>
+</head>
+<body>
+<div id="output"></div>
+</body>
+</html>
