@@ -1,8 +1,10 @@
 // date: 7 * 5のカレンダーに表示するべき文字列
 // $output: 出力するタグ
-function makeCalendar(date, $output) {
+function makeCalendar(year, month, $output) {
   var weekTable = ['日', '月', '火', '水', '木', '金', '土'];
   $output.children().remove();
+
+  var date = getCalendarList(year, month);
 
   var $table = $('<table border="1">');
   var $week = $('<tr>');
@@ -20,11 +22,9 @@ function makeCalendar(date, $output) {
   $output.append($table);
 }
 
-// その月のカレンダーリストを作成する
+// その月のカレンダーリストを取得する
 // date:Dateオブジェクト
-function makeCalendarList(date) {
-  var year  = date.getFullYear();
-  var month = date.getMonth();
+function getCalendarList(year, month) {
   var firstDate = new Date(year, month, 1);
   var firstWeek = firstDate.getDay();
 

@@ -12,13 +12,41 @@ $(function() {
   for(var i = 0; i < 7 * 5; i++) {
     values[i] = i;
   }
-  values = makeCalendarList(new Date());
-  makeCalendar(values, $('#output'));
+  var today = new Date();
+  var year  = today.getFullYear();
+  var month = today.getMonth();
+  makeCalendar(year, month, $('#calendar'));
+  var $calbar = $('<table>').append('<tr>');
+  $calbar
+    .append($('<td>').append($('<a href="" move="prev">').html('先月')))
+    .append($('<td>').html(year + '年 ' + (month + 1) + '月'))
+    .append($('<td>').html($('<a href="" move="next">').html('翌月')));
+  $('#calbar').append($calbar);
+
+  $('#calbar a[move="prev"]').click(function() {
+    month -= 1;
+    if(month < 0) {
+      month = 11;
+      year -= 1;
+    }
+    makeCalendar(year, month, $('#calendar'));
+    return false;
+  });
+  $('#calbar a[move="next"]').click(function() {
+    month += 1;
+    if(month > 11) {
+      month = 11;
+      year += 1;
+    }
+    makeCalendar(year, month, $('#calendar'));
+    return false;
+  });
 });
 </script>
 <title>年間シート予約</title>
 </head>
 <body>
-<div id="output"></div>
+<div id="calbar"></div>
+<div id="calendar"></div>
 </body>
 </html>
