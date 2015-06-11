@@ -4,40 +4,50 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="handlebars-v3.0.3.js"></script>
 <script type="text/javascript" src="mylib.js"></script>
 <script type="text/javascript">
 $(function() {
-  var values = new Array(7 * 5);
-  for(var i = 0; i < 7 * 5; i++) {
-    values[i] = i;
-  }
   var today = new Date();
   var year  = today.getFullYear();
   var month = today.getMonth();
   makeCalendar(year, month, $('#calendar'));
-  var $calbar = $('<table>').append('<tr>');
-  $calbar
-    .append($('<td>').append($('<a href="" move="prev">').html('先月')))
-    .append($('<td>').html(year + '年 ' + (month + 1) + '月'))
-    .append($('<td>').html($('<a href="" move="next">').html('翌月')));
-  $('#calbar').append($calbar);
+  var $calbar = $('#calbar');
+  $calbar.append($('<div>').append($('<a href="" move="prev">').html('先月')));
+  for(var i = 1; i <= 12; i++) {
+    $calbar.append($('<div month="' + i + '">').addClass('month').html(i + '月'));
+  }
+  $calbar.append($('<div>').html($('<a href="" move="next">').html('翌月')));
 
+  $('#calbar div[month="' + (month + 1) + '"]')
+    .removeClass('month')
+    .addClass('focus');
   $('#calbar a[move="prev"]').click(function() {
+    $('#calbar div[month="' + (month + 1) + '"]')
+      .addClass('month')
+      .removeClass('focus');
     month -= 1;
     if(month < 0) {
       month = 11;
       year -= 1;
     }
+    $('#calbar div[month="' + (month + 1) + '"]')
+      .removeClass('month')
+      .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
     return false;
   });
   $('#calbar a[move="next"]').click(function() {
+    $('#calbar div[month="' + (month + 1) + '"]')
+      .addClass('month')
+      .removeClass('focus');
     month += 1;
     if(month > 11) {
-      month = 11;
+      month = 0;
       year += 1;
     }
+    $('#calbar div[month="' + (month + 1) + '"]')
+      .removeClass('month')
+      .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
     return false;
   });
@@ -47,6 +57,7 @@ $(function() {
 </head>
 <body>
 <div id="calbar"></div>
+<br><br><br>
 <div id="calendar"></div>
 </body>
 </html>
