@@ -1,3 +1,9 @@
+body {
+  margin-right: 10%;
+  margin-left: 10%;
+  width: 80%;
+}
+
 a {
   text-decoration: none;
 }
@@ -40,6 +46,11 @@ div.focus {
 #calendar th {
   background-color: lightgray;
   width: 80px;
+}
+
+#calendar td {
+  height: 80px;
+  vertical-align: top;
 }
 
 .saturday {

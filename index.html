@@ -74,11 +74,11 @@ $(function() {
     return false;
   });
 
-  $('.game')
-    .mouseover(function() {
+  $(document)
+    .on('mouseover', '.game', function() {
       $(this).addClass('lightblue');
     })
-    .mouseleave(function() {
+    .on('mouseleave', '.game', function() {
       $(this).removeClass('lightblue');
     });
 });
