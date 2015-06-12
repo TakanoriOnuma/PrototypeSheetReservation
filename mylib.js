@@ -1,3 +1,38 @@
+// カレンダー情報
+var GAME = new Array(12);
+for(var i = 0; i < GAME.length; i++) {
+  GAME[i] = new Array(32);
+  for(var j = 1; j <= 31; j++) {
+    GAME[i][j] = null;
+  }
+}
+// monthは0から、dayは1から
+GAME[6 - 1][9] = {
+  opp: '横浜DeNA',
+  start: '18:00'
+};
+GAME[6 - 1][10] = {
+  opp: '横浜DeNA',
+  start: '18:00'
+};
+GAME[6 - 1][11] = {
+  opp: '横浜DeNA',
+  start: '18:00'
+};
+
+GAME[6 - 1][12] = {
+  opp: '中日',
+  start: '18:00'
+};
+GAME[6 - 1][13] = {
+  opp: '中日',
+  start: '18:00'
+};
+GAME[6 - 1][14] = {
+  opp: '中日',
+  start: '18:00'
+};
+
 // date: 7 * 5のカレンダーに表示するべき文字列
 // $output: 出力するタグ
 function makeCalendar(year, month, $output) {
@@ -22,7 +57,17 @@ function makeCalendar(year, month, $output) {
   for(var i = 0; i < 5; i++) {
     var $week = $('<tr>');
     for(var j = 0; j < 7; j++) {
-      $week.append($('<td>').html(date[i * 7 + j]));
+      if(date[i * 7 + j] === ' ' || GAME[month][date[i * 7 + j]] === null) {
+        $week.append($('<td>').addClass('nogame').html(date[i * 7 + j]));
+      }
+      else {
+        var $oneGame = $('<td>').addClass('game');
+        $oneGame
+          .append(date[i * 7 + j] + '<br>')
+          .append(GAME[month][date[i * 7 + j]].opp + '<br>')
+          .append(GAME[month][date[i * 7 + j]].start);
+        $week.append($oneGame);
+      }
     }
     $table.append($week);
   }

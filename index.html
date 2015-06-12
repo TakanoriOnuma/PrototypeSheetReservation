@@ -73,6 +73,14 @@ $(function() {
     makeCalendar(year, month, $('#calendar'));
     return false;
   });
+
+  $('.game')
+    .mouseover(function() {
+      $(this).addClass('lightblue');
+    })
+    .mouseleave(function() {
+      $(this).removeClass('lightblue');
+    });
 });
 </script>
 <title>年間シート予約</title>

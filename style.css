@@ -33,8 +33,13 @@ div.focus {
   color: white;
 }
 
+.lightblue {
+  background-color: lightblue;
+}
+
 #calendar th {
   background-color: lightgray;
+  width: 80px;
 }
 
 .saturday {
@@ -43,4 +48,12 @@ div.focus {
 
 .sunday {
   color: red;
+}
+
+.nogame {
+  color: gray;
+}
+
+.game {
+  cursor: pointer;
 }
