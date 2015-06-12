@@ -32,3 +32,15 @@ div.focus {
   background-color: blue;
   color: white;
 }
+
+#calendar th {
+  background-color: lightgray;
+}
+
+.saturday {
+  color: darkblue;
+}
+
+.sunday {
+  color: red;
+}

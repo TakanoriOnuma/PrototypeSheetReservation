@@ -9,7 +9,14 @@ function makeCalendar(year, month, $output) {
   var $table = $('<table border="1">');
   var $week = $('<tr>');
   for(var i = 0; i < 7; i++) {
-    $week.append($('<td>').html(weekTable[i]));
+    var $th = $('<th>').html(weekTable[i]);
+    if(weekTable[i] === '土') {
+      $th.addClass('saturday');
+    }
+    if(weekTable[i] === '日') {
+      $th.addClass('sunday');
+    }
+    $week.append($th);
   }
   $table.append($week);
   for(var i = 0; i < 5; i++) {

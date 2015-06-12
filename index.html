@@ -13,8 +13,8 @@ $(function() {
   makeCalendar(year, month, $('#calendar'));
   var $calbar = $('#calbar');
   $calbar.append($('<div>').append($('<a href="" move="prev">').html('先月')));
-  for(var i = 1; i <= 12; i++) {
-    $calbar.append($('<div month="' + i + '">').addClass('month').html(i + '月'));
+  for(var i = 0; i < 12; i++) {
+    $calbar.append($('<div month="' + i + '">').addClass('month').html((i + 1) + '月'));
   }
   $calbar.append($('<div>').html($('<a href="" move="next">').html('翌月')));
 
@@ -26,13 +26,25 @@ $(function() {
     })
     .mouseleave(function() {
       $(this).removeClass('blue');
+    })
+    .click(function() {
+      if($(this).hasClass('month')) {
+        $('#calbar div[month="' + month + '"]')
+          .addClass('month')
+          .removeClass('focus');
+        month = $(this).attr('month');
+        $('#calbar div[month="' + month + '"]')
+          .removeClass('month')
+          .addClass('focus');
+        makeCalendar(year, month, $('#calendar'));
+      }
     });
 
-  $('#calbar div[month="' + (month + 1) + '"]')
+  $('#calbar div[month="' + month + '"]')
     .removeClass('month')
     .addClass('focus');
   $('#calbar a[move="prev"]').click(function() {
-    $('#calbar div[month="' + (month + 1) + '"]')
+    $('#calbar div[month="' + month + '"]')
       .addClass('month')
       .removeClass('focus');
     month -= 1;
@@ -40,14 +52,14 @@ $(function() {
       month = 11;
       year -= 1;
     }
-    $('#calbar div[month="' + (month + 1) + '"]')
+    $('#calbar div[month="' + month + '"]')
       .removeClass('month')
       .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
     return false;
   });
   $('#calbar a[move="next"]').click(function() {
-    $('#calbar div[month="' + (month + 1) + '"]')
+    $('#calbar div[month="' + month + '"]')
       .addClass('month')
       .removeClass('focus');
     month += 1;
@@ -55,7 +67,7 @@ $(function() {
       month = 0;
       year += 1;
     }
-    $('#calbar div[month="' + (month + 1) + '"]')
+    $('#calbar div[month="' + month + '"]')
       .removeClass('month')
       .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
