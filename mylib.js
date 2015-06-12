@@ -1,7 +1,7 @@
 // date: 7 * 5のカレンダーに表示するべき文字列
 // $output: 出力するタグ
 function makeCalendar(year, month, $output) {
-  var weekTable = ['日', '月', '火', '水', '木', '金', '土'];
+  var weekTable = ['月', '火', '水', '木', '金', '土', '日'];
   $output.children().remove();
 
   var date = getCalendarList(year, month);
@@ -26,11 +26,16 @@ function makeCalendar(year, month, $output) {
 // date:Dateオブジェクト
 function getCalendarList(year, month) {
   var firstDate = new Date(year, month, 1);
-  var firstWeek = firstDate.getDay();
+  // 月曜日からスタート
+  var firstWeek = firstDate.getDay() - 1;
+  if(firstWeek < 0) {
+    firstWeek = 6;
+  }
+
 
   var maxDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   // うるう年なら2月を29日までにする
-  if(year % 4 === 0 || year % 100 !== 0 || year % 400 === 0) {
+  if(year % 4 === 0 || (year % 100 === 0 && year % 400 !== 0)) {
     maxDays[1] = 29;
   }
 
