@@ -43,13 +43,20 @@ div.focus {
   background-color: lightblue;
 }
 
+#calendar table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
 #calendar th {
   background-color: lightgray;
+  border: solid 1px gray;
   width: 80px;
 }
 
 #calendar td {
   height: 80px;
+  border: solid 1px gray;
   vertical-align: top;
 }
 

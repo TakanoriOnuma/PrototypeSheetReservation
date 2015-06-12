@@ -76,7 +76,7 @@ function makeCalendar(year, month, $output) {
 
   var date = getCalendarList(year, month);
 
-  var $table = $('<table border="1">');
+  var $table = $('<table>');
   var $week = $('<tr>');
   for(var i = 0; i < 7; i++) {
     var $th = $('<th>').html(weekTable[i]);
