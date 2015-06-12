@@ -53,6 +53,10 @@ div.focus {
   vertical-align: top;
 }
 
+.day {
+  font-weight: bold;
+}
+
 .saturday {
   color: darkblue;
 }
@@ -67,4 +71,8 @@ div.focus {
 
 .game {
   cursor: pointer;
+}
+
+.center {
+  text-align: center;
 }

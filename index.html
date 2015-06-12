@@ -34,12 +34,12 @@ $(function() {
         $('#calbar div[month="' + month + '"]')
           .addClass('month')
           .removeClass('focus');
-        month = $(this).attr('month');
+        month = parseInt($(this).attr('month'));
         $('#calbar div[month="' + month + '"]')
           .removeClass('month')
           .addClass('focus');
         makeCalendar(year, month, $('#calendar'));
-        $('#calmonth').html(year + '年' + (parseInt(month) + 1) + '月');
+        $('#calmonth').html(year + '年' + (month + 1) + '月');
       }
     });
 

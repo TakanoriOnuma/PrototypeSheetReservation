@@ -93,14 +93,21 @@ function makeCalendar(year, month, $output) {
     var $week = $('<tr>');
     for(var j = 0; j < 7; j++) {
       if(date[i * 7 + j] === ' ' || GAME[month][date[i * 7 + j]] === null) {
-        $week.append($('<td>').addClass('nogame').html(date[i * 7 + j]));
+        var $noGame = $('<td>').addClass('nogame');
+        $noGame.append(($('<span>').addClass('day').html(date[i * 7 + j])));
+        $week.append($noGame);
       }
       else {
         var $oneGame = $('<td>').addClass('game');
-        $oneGame
-          .append(date[i * 7 + j] + '<br>')
-          .append(GAME[month][date[i * 7 + j]].opp + '<br>')
+        var $info = $('<div>').addClass('center');
+        $info
+          .append(GAME[month][date[i * 7 + j]].opp)
+          .append('<br>')
           .append(GAME[month][date[i * 7 + j]].start);
+        $oneGame
+          .append(($('<span>').addClass('day').html(date[i * 7 + j])))
+          .append('<br>')
+          .append($info);
         $week.append($oneGame);
       }
     }
