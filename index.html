@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -17,6 +17,16 @@ $(function() {
     $calbar.append($('<div month="' + i + '">').addClass('month').html(i + '月'));
   }
   $calbar.append($('<div>').html($('<a href="" move="next">').html('翌月')));
+
+  $('#calbar div')
+    .mouseover(function() {
+      if($(this).hasClass('month')) {
+        $(this).addClass('blue');
+      }
+    })
+    .mouseleave(function() {
+      $(this).removeClass('blue');
+    });
 
   $('#calbar div[month="' + (month + 1) + '"]')
     .removeClass('month')
