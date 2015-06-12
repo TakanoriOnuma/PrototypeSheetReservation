@@ -18,6 +18,8 @@ $(function() {
   }
   $calbar.append($('<div>').html($('<a href="" move="next">').html('翌月')));
 
+  $('#calmonth').html(year + '年' + (month + 1) + '月');
+
   $('#calbar div')
     .mouseover(function() {
       if($(this).hasClass('month')) {
@@ -37,6 +39,7 @@ $(function() {
           .removeClass('month')
           .addClass('focus');
         makeCalendar(year, month, $('#calendar'));
+        $('#calmonth').html(year + '年' + (parseInt(month) + 1) + '月');
       }
     });
 
@@ -56,6 +59,7 @@ $(function() {
       .removeClass('month')
       .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
+    $('#calmonth').html(year + '年' + (month + 1) + '月');
     return false;
   });
   $('#calbar a[move="next"]').click(function() {
@@ -71,6 +75,7 @@ $(function() {
       .removeClass('month')
       .addClass('focus');
     makeCalendar(year, month, $('#calendar'));
+    $('#calmonth').html(year + '年' + (month + 1) + '月');
     return false;
   });
 
@@ -86,6 +91,7 @@ $(function() {
 <title>年間シート予約</title>
 </head>
 <body>
+<h1><span id="calmonth"></span> <span>カレンダー</span></h1>
 <div id="calbar"></div>
 <br><br><br>
 <div id="calendar"></div>
