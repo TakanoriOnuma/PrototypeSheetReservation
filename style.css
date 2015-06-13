@@ -4,7 +4,6 @@ body {
 
 #header {
   width: 100%;
-  border: solid 1px black;
 }
 
 #header table {
@@ -12,10 +11,10 @@ body {
 }
 
 #contents {
-  border: solid 1px black;
-  width: 670px;
+  width: 700px;
   margin-right: auto;
   margin-left: auto;
+  padding-bottom: 10px;
 }
 
 #footer {
@@ -36,6 +35,8 @@ a {
 #calbar table {
   border-spacing: 0;
   border-collapse: collapse;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 #calbar td {
@@ -93,7 +94,8 @@ div.focus {
 #calendar table {
   border-spacing: 0;
   border-collapse: collapse;
-  margin-left: 37px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 #calendar th {
