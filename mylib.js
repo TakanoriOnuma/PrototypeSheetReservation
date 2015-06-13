@@ -21,15 +21,15 @@ GAME[6 - 1][11] = {
 };
 
 GAME[6 - 1][12] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 GAME[6 - 1][13] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 GAME[6 - 1][14] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 
@@ -67,6 +67,59 @@ GAME[7 - 1][12] = {
   opp: 'オリックス',
   start: '13:00'
 };
+
+
+// 登録情報
+var REV = new Array(12);
+for(var i = 0; i < REV.length; i++) {
+  REV[i] = new Array(32);
+  for(var j = 1; j <= 31; j++) {
+    REV[i][j] = null;
+  }
+}
+
+REV[6 - 1][12] = [];
+REV[6 - 1][12].push({
+  'name' : '田中裕太',
+  'depart' : '営業部',
+  'pos'  : '係長',
+  'sheet' : 2,
+  'date' : '2015-06-05 19:32'
+});
+REV[6 - 1][12].push({
+  'name' : '佐藤祐樹',
+  'depart' : 'システム開発部',
+  'pos'  : '',
+  'sheet' : 1,
+  'date' : '2015-06-05 20:32'
+});
+REV[6 - 1][12].push({
+  'name' : '山田愛',
+  'depart' : '',
+  'pos'  : '',
+  'sheet' : 5,
+  'date' : '2015-06-10 12:10'
+});
+
+// シート数
+var SHEET = 5;
+// 最大予約人数
+var MAXNUM = 10;
+
+// URLの?以降に書かれているパラメータを取得する
+function getParams() {
+  var url    = location.href;
+  parameters = url.split("?");
+  parameters = parameters[1].split("#");
+  params     = parameters[0].split("&");
+  var paramsArray = [];
+  for ( i = 0; i < params.length; i++ ) {
+    neet = params[i].split("=");
+    paramsArray.push(neet[0]);
+    paramsArray[neet[0]] = neet[1];
+  }
+  return paramsArray;
+}
 
 // date: 7 * 5のカレンダーに表示するべき文字列
 // $output: 出力するタグ
@@ -143,3 +196,157 @@ function getCalendarList(year, month) {
 
   return calList;
 }
+
+// ====== game.htmlで使用 ===== //
+// game.htmlでやること
+function gameInitial() {
+  var date = getParams();
+  date['year'] = parseInt(date['year']);
+  date['month'] = parseInt(date['month']);
+  date['day'] = parseInt(date['day']);
+
+  setGameinfo(date, $('.gameinfo'));
+  setRevinfo(date, $('#revinfo'));
+  setSheetNum(date);
+  setRevNum(date);
+
+  var $sheet = $('#sheet');
+  for(var i = 0; i < SHEET; i++) {
+    $sheet.append($('<option value="' + (i + 1) + '">').html(i + 1));
+  }
+
+  $('#revform').submit(function() {
+    var name = $('#name').val();
+    var sheet = $('#sheet').val();
+    var depart = $('#depart').val();
+    var pos = $('#pos').val();
+    $('.error').children().remove();
+    if(name === '') {
+      $('.error').append($('<li>').append('名前を入力してください'));
+      return false;
+    }
+    if(REV[date['month']][date['day']] !== null && REV[date['month']][date['day']].length >= MAXNUM) {
+      alert('これ以上予約することは出来ません。');
+      return false;
+    }
+
+    if(REV[date['month']][date['day']] === null) {
+      REV[date['month']][date['day']] = [];
+    }
+    REV[date['month']][date['day']].push({
+      name : name,
+      depart : depart,
+      pos : pos,
+      sheet : parseInt(sheet),
+      date : parseDate(new Date())
+    });
+
+    setRevinfo(date, $('#revinfo'));
+    setSheetNum(date);
+    setRevNum(date);
+    return false;
+  });
+}
+// ゲーム情報をセットする
+// date: year, month, dayが入っている
+// $gameinfo: 入れるところ
+function setGameinfo(date, $gameinfo) {
+  var $date = $('<span>').html((date['month'] + 1) + '月' + date['day'] + '日');
+  var game = GAME[date['month']][date['day']];
+  var $opp  = $('<span>').html(game.opp);
+  var $start = $('<span>').html(game.start);
+
+  $gameinfo
+    .append($date)
+    .append(' VS ')
+    .append($opp)
+    .append(' ')
+    .append($start);
+}
+
+// 登録状況をセットする
+// date: year, month, dayが入っている
+// $revinfo: 入れるところ
+function setRevinfo(date, $revinfo) {
+  $revinfo.children().remove();
+  var $th = $('<tr>').addClass('lightgray');
+  $th
+    .append($('<th>').html('予約者名'))
+    .append($('<th>').html('予約席数'))
+    .append($('<th>').html('登録日'));
+  $revinfo.append($th);
+  if(REV[date['month']][date['day']] !== null) {
+    var revList = REV[date['month']][date['day']];
+    for(var i = 0; i < revList.length; i++) {
+      var $tr = $('<tr>');
+      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
+      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
+      name += revList[i]['name'];
+      $tr
+        .append($('<td>').html(name))
+        .append($('<td>').html(revList[i]['sheet'] + '席'))
+        .append($('<td>').html(revList[i]['date']));
+      $revinfo.append($tr);
+    }
+  }
+}
+
+// 予約席数を数える
+// date: year, month, dayが入っている
+function calcSheetNum(date) {
+  if(REV[date['month']][date['day']] === null) {
+    return 0;
+  }
+  var num = 0;
+  for(var i = 0; i < REV[date['month']][date['day']].length; i++) {
+    num += REV[date['month']][date['day']][i].sheet;
+  }
+  return num;
+}
+
+// シート数を表示する
+function setSheetNum(date) {
+  $('.sheet-info').html('');
+  $('.sheet-info').children().remove();
+  var sheetNum = calcSheetNum(date);
+  var $sheetNum = $('<span>').html(sheetNum);
+  if(sheetNum >= SHEET) {
+    $sheetNum.addClass('danger');
+  }
+  else {
+    $sheetNum.addClass('safe');
+  }
+  $('.sheet-info')
+    .append('(席数： ')
+    .append($sheetNum)
+    .append('/' + SHEET + ')');
+}
+
+// 残り予約人数を表示する
+function setRevNum(date) {
+  $('.rev-info').html('');
+  $('.rev-info').children().remove();
+  var revNum = MAXNUM - ((REV[date['month']][date['day']] === null) ? 0 : REV[date['month']][date['day']].length);
+  var $revNum = $('<span>').html(revNum);
+  if(revNum <= 0) {
+    $revNum.addClass('danger');
+  }
+  else {
+    $revNum.addClass('safe');
+  }
+  $('.rev-info')
+    .append('(あと ')
+    .append($revNum)
+    .append('人予約可能)');
+}
+
+// 日付を文字列に変える
+function parseDate(date) {
+  var str = date.getFullYear() + '-';
+  str += ('0' + (date.getMonth() + 1)).slice(-2) + '-';
+  str += ('0' + date.getDate()).slice(-2) + ' ';
+  str += ('0' + date.getHours()).slice(-2) + ':';
+  str += ('0' + date.getMinutes()).slice(-2);
+  return str;
+}
+// ==== game.htmlで使用終了 === //
