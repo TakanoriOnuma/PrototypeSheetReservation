@@ -87,40 +87,45 @@ $(function() {
     .on('mouseleave', '.game', function() {
       $(this).removeClass('lightblue');
     });
+
+  $('#footer')
+    .mouseover(function() {
+      $(this)
+        .removeClass('dimgray')
+        .addClass('darkgray');
+    })
+    .mouseleave(function() {
+      $(this)
+        .removeClass('darkgray')
+        .addClass('dimgray');
+    })
+    .click(function() {
+      location.hash = 'top';
+    });
 });
 </script>
 <title>年間シート予約</title>
 </head>
-<body>
-<table id="frame">
-<tr>
+<body id="top">
 <!-- header -->
-<td id="header">
-<table border="1">
-  <tr>
-    <td><strong>年間シート 予約管理システム</strong></td>
-    <td><a href="login">管理者ログイン</a></td>
-  </tr>
-</table>
-</td>
-</tr>
-<tr>
+<div id="header">
+  <table border="1">
+    <tr>
+      <td><strong>年間シート 予約管理システム</strong></td>
+      <td><a href="login">管理者ログイン</a></td>
+    </tr>
+  </table>
+</div>
 <!-- contents -->
-<td>
 <div id="contents">
   <h1><span id="calmonth"></span> <span>カレンダー</span></h1>
   <div id="calbar"></div>
   <br>
   <div id="calendar"></div>
 </div>
-</td>
-</tr>
-<tr>
 <!-- footer -->
-<td id="footer">
-  <p>footer</p>
-</td>
-</tr>
-</table>
+<div id="footer" class="dimgray">
+  <a href="#top">ページトップへ</a>
+</div>
 </body>
 </html>

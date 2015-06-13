@@ -1,9 +1,9 @@
-#frame {
-  width: 100%;
-  border: solid 1px black;
+body {
+  margin: 0;
 }
 
 #header {
+  width: 100%;
   border: solid 1px black;
 }
 
@@ -16,6 +16,17 @@
   width: 670px;
   margin-right: auto;
   margin-left: auto;
+}
+
+#footer {
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#footer a {
+  width: 100%;
+  color: white;
 }
 
 a {
@@ -69,6 +80,14 @@ div.focus {
 
 .lightblue {
   background-color: lightblue;
+}
+
+.darkgray {
+  background-color: darkgray;
+}
+
+.dimgray {
+  background-color: dimgray;
 }
 
 #calendar table {
