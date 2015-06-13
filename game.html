@@ -7,14 +7,7 @@
 <script type="text/javascript" src="mylib.js"></script>
 <script type="text/javascript">
 $(function() {
-  var params = getParams();
-  params['year'] = parseInt(params['year']);
-  params['month'] = parseInt(params['month']);
-  params['day'] = parseInt(params['day']);
-
   gameInitial();
-  setGameinfo(params, $('.gameinfo'));
-  setRevinfo(params, $('#revinfo'));
 
   $('#footer')
     .mouseover(function() {
@@ -56,14 +49,14 @@ $(function() {
 <!-- contents -->
 <div id="contents">
   <h1 class="gameinfo"></h1>
-  <h2>予約状況</h2>
+  <h2>予約状況 <span class="sheet-info"></span></h2>
   <table id="revinfo" border="1"></table>
-  <h2>予約登録</h2>
+  <h2>予約登録 <span class="rev-info"></span></h2>
   <form id="revform">
     <table>
       <tr>
         <td><label for="name">名前：</label></td>
-        <td><input type="text" name="namae" id="name"> <span class="attention">※必ず記入してください</span></td>
+        <td><input type="text" name="name" id="name"> <span class="attention">※必ず記入してください</span></td>
       </tr>
       <tr>
         <td><label for="depart">部署：</label></td>

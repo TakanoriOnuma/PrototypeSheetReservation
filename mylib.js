@@ -103,6 +103,8 @@ REV[6 - 1][12].push({
 
 // シート数
 var SHEET = 5;
+// 最大予約人数
+var MAXNUM = 10;
 
 // URLの?以降に書かれているパラメータを取得する
 function getParams() {
@@ -198,6 +200,14 @@ function getCalendarList(year, month) {
 // ====== game.htmlで使用 ===== //
 // game.htmlでやること
 function gameInitial() {
+  var date = getParams();
+  date['year'] = parseInt(date['year']);
+  date['month'] = parseInt(date['month']);
+  date['day'] = parseInt(date['day']);
+
+  setGameinfo(date, $('.gameinfo'));
+  setRevinfo(date, $('#revinfo'));
+
   var $sheet = $('#sheet');
   for(var i = 0; i < SHEET; i++) {
     $sheet.append($('<option value="' + (i + 1) + '">').html(i + 1));
@@ -207,6 +217,32 @@ function gameInitial() {
     alert('登録');
     return false;
   });
+
+  var sheetNum = calcSheetNum(date);
+  var $sheetNum = $('<span>').html(sheetNum);
+  if(sheetNum >= SHEET) {
+    $sheetNum.addClass('danger');
+  }
+  else {
+    $sheetNum.addClass('safe');
+  }
+  $('.sheet-info')
+    .append('(席数： ')
+    .append($sheetNum)
+    .append('/' + SHEET + ')');
+
+  var revNum = MAXNUM - ((REV[date['month']][date['day']] === null) ? 0 : REV[date['month']][date['day']].length);
+  var $revNum = $('<span>').html(revNum);
+  if(revNum <= 0) {
+    $revNum.addClass('danger');
+  }
+  else {
+    $revNum.addClass('safe');
+  }
+  $('.rev-info')
+    .append('(あと ')
+    .append($revNum)
+    .append('人予約可能)');
 }
 // ゲーム情報をセットする
 // date: year, month, dayが入っている
@@ -249,5 +285,18 @@ function setRevinfo(date, $revinfo) {
       $revinfo.append($tr);
     }
   }
+}
+
+// 予約席数を数える
+// date: year, month, dayが入っている
+function calcSheetNum(date) {
+  if(REV[date['month']][date['day']] === null) {
+    return 0;
+  }
+  var num = 0;
+  for(var i = 0; i < REV[date['month']][date['day']].length; i++) {
+    num += REV[date['month']][date['day']][i].sheet;
+  }
+  return num;
 }
 // ==== game.htmlで使用終了 === //

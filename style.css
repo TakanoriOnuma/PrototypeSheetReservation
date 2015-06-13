@@ -204,4 +204,21 @@ table#revinfo {
 #revform table {
 
 }
+
+.sheet-info, .rev-info {
+  font-weight: normal;
+  font-size: 0.9em;
+}
+
+.danger {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: red;
+}
+
+.safe {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: green;
+}
 /* game.html部分終了 */
