@@ -7,7 +7,16 @@
 <script type="text/javascript" src="mylib.js"></script>
 <script type="text/javascript">
 $(function() {
-  gameInitial();
+  $('#login').submit(function() {
+    var password = $('#pass').val();
+    if(password === 'sangaku') {
+      document.location = 'index.html';
+    }
+    else {
+      alert('パスワードが違います。');
+    }
+    return false;
+  });
 
   $('#footer')
     .mouseover(function() {
@@ -47,34 +56,12 @@ $(function() {
 <tr>
 <td>
 <!-- contents -->
-<div id="contents">
-  <h1 class="gameinfo"></h1>
-  <h2>予約状況 <span class="sheet-info"></span></h2>
-  <table id="revinfo" border="1"></table>
-  <h2>予約登録 <span class="rev-info"></span></h2>
-  <form id="revform">
-    <table>
-      <tr>
-        <td><label for="name">名前：</label></td>
-        <td><input type="text" name="name" id="name"> <span class="attention">※必ず記入してください</span></td>
-      </tr>
-      <tr>
-        <td><label for="depart">部署：</label></td>
-        <td><input type="text" name="depart" id="depart"></td>
-      </tr>
-      <tr>
-        <td><label for="pos">役職：</label></td>
-        <td><input type="text" name="pos" id="pos"></td>
-      </tr>
-      <tr>
-        <td><label for="sheet">席数：</label></td>
-        <td><select name="sheet" id="sheet"></select> 席 <span class="attention">※必ず記入してください</span></td>
-      </tr>
-      <tr>
-        <td colspan="2"><input type="submit" id="revbut" value="登録"></td>
-      </tr>
-    </table>
-    <ul class="error"></ul>
+<div id="contents" class="center">
+  <h1>管理担当者ログイン</h1>
+  <form id="login">
+    <label for="pass">パスワード：</label>
+    <input type="password" id="pass"><br><br>
+    <input type="submit" value="ログイン">
   </form>
 </div>
 </td>
