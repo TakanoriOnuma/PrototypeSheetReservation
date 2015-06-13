@@ -11,12 +11,13 @@ $(function() {
   var year  = today.getFullYear();
   var month = today.getMonth();
   makeCalendar(year, month, $('#calendar'));
-  var $calbar = $('#calbar');
-  $calbar.append($('<div>').append($('<a href="" move="prev">').html('先月')));
+  var $calbar = $('<tr>');
+  $calbar.append($('<td>').append($('<div>').append($('<a href="" move="prev">').append($('<img src="arrow_left.png" height="30">')))));
   for(var i = 0; i < 12; i++) {
-    $calbar.append($('<div month="' + i + '">').addClass('month').html((i + 1) + '月'));
+    $calbar.append($('<td>').append($('<div month="' + i + '">').addClass('month').html((i + 1) + '月')));
   }
-  $calbar.append($('<div>').html($('<a href="" move="next">').html('翌月')));
+  $calbar.append($('<td>').append($('<div>').html($('<a href="" move="next">').append($('<img src="arrow_right.png" height="30">')))));
+  $('#calbar').append($('<table>').append($calbar));
 
   $('#calmonth').html(year + '年' + (month + 1) + '月');
 
@@ -93,7 +94,7 @@ $(function() {
 <body>
 <h1><span id="calmonth"></span> <span>カレンダー</span></h1>
 <div id="calbar"></div>
-<br><br><br>
+<br>
 <div id="calendar"></div>
 </body>
 </html>

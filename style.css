@@ -8,15 +8,27 @@ a {
   text-decoration: none;
 }
 
+#calbar table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+#calbar td {
+  padding: 0;
+}
+
 #calbar div {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: solid 1px gray;
-  float: left;
+  margin: 0;
+}
+
+#calbar img {
+  margin-top: 4px;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 div.month {
-  height: 10px;
+  border: solid 1px gray;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 10px;
@@ -25,12 +37,14 @@ div.month {
 }
 
 div.focus {
+  font-size: 20px;
+  font-weight: bold;
   background-color: blue;
   color: white;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   cursor: default;
 }
 
