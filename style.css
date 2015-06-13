@@ -193,6 +193,14 @@ h2 {
   color: red;
 }
 
+.error {
+  color: red;
+}
+
+ul.error {
+
+}
+
 /* game.html部分 */
 table#revinfo {
   width: 400px;
