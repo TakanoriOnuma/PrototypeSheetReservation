@@ -8,7 +8,12 @@
 <script type="text/javascript">
 $(function() {
   var params = getParams();
-  alert(params['year'] + '年' + params['month'] + '月' + params['day'] + '日');
+  params['year'] = parseInt(params['year']);
+  params['month'] = parseInt(params['month']);
+  params['day'] = parseInt(params['day']);
+
+  setGameinfo(params, $('.gameinfo'));
+  setRevinfo(params, $('#revinfo'));
 
   $('#footer')
     .mouseover(function() {
@@ -49,7 +54,10 @@ $(function() {
 <td>
 <!-- contents -->
 <div id="contents">
-
+  <h1 class="gameinfo"></h1>
+  <h2>予約状況</h2>
+  <table id="revinfo" border="1"></table>
+  <h2>予約登録</h2>
 </div>
 </td>
 </tr>

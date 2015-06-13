@@ -21,15 +21,15 @@ GAME[6 - 1][11] = {
 };
 
 GAME[6 - 1][12] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 GAME[6 - 1][13] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 GAME[6 - 1][14] = {
-  opp: '中日',
+  opp: '中日ドラゴンズ',
   start: '18:00'
 };
 
@@ -67,6 +67,41 @@ GAME[7 - 1][12] = {
   opp: 'オリックス',
   start: '13:00'
 };
+
+
+// 登録情報
+var REV = new Array(12);
+for(var i = 0; i < REV.length; i++) {
+  REV[i] = new Array(32);
+  for(var j = 1; j <= 31; j++) {
+    REV[i][j] = null;
+  }
+}
+
+REV[6 - 1][12] = [];
+REV[6 - 1][12].push({
+  'name' : '田中裕太',
+  'depart' : '営業部',
+  'pos'  : '係長',
+  'sheet' : 2,
+  'date' : '2015-06-05 19:32'
+});
+REV[6 - 1][12].push({
+  'name' : '佐藤祐樹',
+  'depart' : 'システム開発部',
+  'pos'  : '',
+  'sheet' : 1,
+  'date' : '2015-06-05 20:32'
+});
+REV[6 - 1][12].push({
+  'name' : '山田愛',
+  'depart' : '',
+  'pos'  : '',
+  'sheet' : 5,
+  'date' : '2015-06-10 12:10'
+});
+
+
 
 // URLの?以降に書かれているパラメータを取得する
 function getParams() {
@@ -158,3 +193,48 @@ function getCalendarList(year, month) {
 
   return calList;
 }
+
+// ====== game.htmlで使用 ===== //
+// ゲーム情報をセットする
+// date: year, month, dayが入っている
+// $gameinfo: 入れるところ
+function setGameinfo(date, $gameinfo) {
+  var $date = $('<span>').html((date['month'] + 1) + '月' + date['day'] + '日');
+  var game = GAME[date['month']][date['day']];
+  var $opp  = $('<span>').html(game.opp);
+  var $start = $('<span>').html(game.start);
+
+  $gameinfo
+    .append($date)
+    .append(' VS ')
+    .append($opp)
+    .append(' ')
+    .append($start);
+}
+
+// 登録状況をセットする
+// date: year, month, dayが入っている
+// $revinfo: 入れるところ
+function setRevinfo(date, $revinfo) {
+  var $th = $('<tr>').addClass('lightgray');
+  $th
+    .append($('<th>').html('予約者名'))
+    .append($('<th>').html('予約席数'))
+    .append($('<th>').html('登録日'));
+  $revinfo.append($th);
+  if(REV[date['month']][date['day']] !== null) {
+    var revList = REV[date['month']][date['day']];
+    for(var i = 0; i < revList.length; i++) {
+      var $tr = $('<tr>');
+      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
+      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
+      name += revList[i]['name'];
+      $tr
+        .append($('<td>').html(name))
+        .append($('<td>').html(revList[i]['sheet'] + '席'))
+        .append($('<td>').html(revList[i]['date']));
+      $revinfo.append($tr);
+    }
+  }
+}
+// ==== game.htmlで使用終了 === //
