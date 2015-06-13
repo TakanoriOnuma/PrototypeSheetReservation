@@ -68,6 +68,21 @@ GAME[7 - 1][12] = {
   start: '13:00'
 };
 
+// URLの?以降に書かれているパラメータを取得する
+function getParams() {
+  var url    = location.href;
+  parameters = url.split("?");
+  parameters = parameters[1].split("#");
+  params     = parameters[0].split("&");
+  var paramsArray = [];
+  for ( i = 0; i < params.length; i++ ) {
+    neet = params[i].split("=");
+    paramsArray.push(neet[0]);
+    paramsArray[neet[0]] = neet[1];
+  }
+  return paramsArray;
+}
+
 // date: 7 * 5のカレンダーに表示するべき文字列
 // $output: 出力するタグ
 function makeCalendar(year, month, $output) {
