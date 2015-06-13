@@ -230,3 +230,9 @@ table#revinfo {
   color: green;
 }
 /* game.html部分終了 */
+
+/* admin部分 */
+.space {
+  padding-right: 10px;
+}
+/* admin部分終了 */

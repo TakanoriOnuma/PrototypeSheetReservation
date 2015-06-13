@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="mylib.js"></script>
+<script type="text/javascript">
+$(function() {
+  var today = new Date();
+  var year  = today.getFullYear();
+  var month = today.getMonth();
+  makeCalendar(year, month, $('#calendar'));
+  var $calbar = $('<tr>');
+  $calbar.append($('<td>').append($('<div>').append($('<a href="" move="prev">').append($('<img src="arrow_left.png" height="30">')))));
+  for(var i = 0; i < 12; i++) {
+    $calbar.append($('<td>').append($('<div month="' + i + '">').addClass('month').html((i + 1) + '月')));
+  }
+  $calbar.append($('<td>').append($('<div>').html($('<a href="" move="next">').append($('<img src="arrow_right.png" height="30">')))));
+  $('#calbar').append($('<table>').append($calbar));
+
+  $('#calmonth').html(year + '年' + (month + 1) + '月');
+
+  $('#calbar div')
+    .mouseover(function() {
+      if($(this).hasClass('month')) {
+        $(this).addClass('blue');
+      }
+    })
+    .mouseleave(function() {
+      $(this).removeClass('blue');
+    })
+    .click(function() {
+      if($(this).hasClass('month')) {
+        $('#calbar div[month="' + month + '"]')
+          .addClass('month')
+          .removeClass('focus');
+        month = parseInt($(this).attr('month'));
+        $('#calbar div[month="' + month + '"]')
+          .removeClass('month')
+          .addClass('focus');
+        makeCalendar(year, month, $('#calendar'));
+        $('#calmonth').html(year + '年' + (month + 1) + '月');
+      }
+    });
+
+  $('#calbar div[month="' + month + '"]')
+    .removeClass('month')
+    .addClass('focus');
+  $('#calbar a[move="prev"]').click(function() {
+    $('#calbar div[month="' + month + '"]')
+      .addClass('month')
+      .removeClass('focus');
+    month -= 1;
+    if(month < 0) {
+      month = 11;
+      year -= 1;
+    }
+    $('#calbar div[month="' + month + '"]')
+      .removeClass('month')
+      .addClass('focus');
+    makeCalendar(year, month, $('#calendar'));
+    $('#calmonth').html(year + '年' + (month + 1) + '月');
+    return false;
+  });
+  $('#calbar a[move="next"]').click(function() {
+    $('#calbar div[month="' + month + '"]')
+      .addClass('month')
+      .removeClass('focus');
+    month += 1;
+    if(month > 11) {
+      month = 0;
+      year += 1;
+    }
+    $('#calbar div[month="' + month + '"]')
+      .removeClass('month')
+      .addClass('focus');
+    makeCalendar(year, month, $('#calendar'));
+    $('#calmonth').html(year + '年' + (month + 1) + '月');
+    return false;
+  });
+
+  $(document)
+    .on('mouseover', '.game', function() {
+      $(this).addClass('lightblue');
+    })
+    .on('mouseleave', '.game', function() {
+      $(this).removeClass('lightblue');
+    })
+    .on('click', '.game', function() {
+      var day = parseInt($('.day', this).html());
+      document.location = 'game.html?year=' + year + '&month=' + month + '&day=' + day;
+    });
+
+  $('#footer')
+    .mouseover(function() {
+      $(this)
+        .removeClass('footer_nofocus')
+        .addClass('footer_focus');
+    })
+    .mouseleave(function() {
+      $(this)
+        .removeClass('footer_focus')
+        .addClass('footer_nofocus');
+    })
+    .click(function() {
+      // 一旦ハッシュを外した後に#topを付加する
+      location.hash = '';
+      location.hash = 'top';
+    });
+});
+</script>
+<title>年間シート予約</title>
+</head>
+<body id="top" name="top">
+<table id="frame">
+<tr>
+<td>
+<!-- header -->
+<div id="header">
+  <table>
+    <tr>
+      <td><a href="index_admin.html"><strong class="headtitle">年間シート 予約管理システム</strong></a></td>
+      <td class="right"><a href="config.html">設定</a><span class="space"> | </span><a href="index.html"> ログアウト</a></td>
+    </tr>
+  </table>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- contents -->
+<div id="contents">
+  <h1><span id="calmonth"></span> <span>カレンダー</span></h1>
+  <div id="calbar"></div>
+  <br>
+  <div id="calendar"></div>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- footer -->
+<div id="footer" class="footer_nofocus">
+  <a href="#top">ページトップへ</a>
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>
