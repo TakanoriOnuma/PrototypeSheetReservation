@@ -101,7 +101,8 @@ REV[6 - 1][12].push({
   'date' : '2015-06-10 12:10'
 });
 
-
+// シート数
+var SHEET = 5;
 
 // URLの?以降に書かれているパラメータを取得する
 function getParams() {
@@ -195,6 +196,18 @@ function getCalendarList(year, month) {
 }
 
 // ====== game.htmlで使用 ===== //
+// game.htmlでやること
+function gameInitial() {
+  var $sheet = $('#sheet');
+  for(var i = 0; i < SHEET; i++) {
+    $sheet.append($('<option value="' + (i + 1) + '">').html(i + 1));
+  }
+
+  $('#revform').submit(function() {
+    alert('登録');
+    return false;
+  });
+}
 // ゲーム情報をセットする
 // date: year, month, dayが入っている
 // $gameinfo: 入れるところ

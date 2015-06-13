@@ -184,9 +184,24 @@ div.focus {
   text-align: center;
 }
 
-/* game.html部分 */
-table#revinfo {
-  text-align: center;
+h2 {
+  border-left: solid 10px skyblue;
+  padding-left: 5px;
 }
 
+.attention {
+  color: red;
+}
+
+/* game.html部分 */
+table#revinfo {
+  width: 400px;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#revform table {
+
+}
 /* game.html部分終了 */
