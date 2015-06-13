@@ -109,15 +109,22 @@ $(function() {
 <title>年間シート予約</title>
 </head>
 <body id="top" name="top">
+<table id="frame">
+<tr>
+<td>
 <!-- header -->
 <div id="header">
-  <table border="1">
+  <table>
     <tr>
-      <td><strong>年間シート 予約管理システム</strong></td>
-      <td><a href="login">管理者ログイン</a></td>
+      <td><strong class="headtitle">年間シート 予約管理システム</strong></td>
+      <td class="right"><a href="login">管理者ログイン</a></td>
     </tr>
   </table>
 </div>
+</td>
+</tr>
+<tr>
+<td>
 <!-- contents -->
 <div id="contents">
   <h1><span id="calmonth"></span> <span>カレンダー</span></h1>
@@ -125,9 +132,16 @@ $(function() {
   <br>
   <div id="calendar"></div>
 </div>
+</td>
+</tr>
+<tr>
+<td>
 <!-- footer -->
 <div id="footer" class="footer_nofocus">
   <a href="#top">ページトップへ</a>
 </div>
+</td>
+</tr>
+</table>
 </body>
 </html>

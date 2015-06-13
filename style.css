@@ -2,12 +2,47 @@ body {
   margin: 0;
 }
 
+#frame {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
 #header {
   width: 100%;
+  margin: 0;
+  background-color: navy;
+  color: white;
+}
+
+#header table {
+  margin: 0;
+}
+
+#header a {
+  margin-right: 10px;
+}
+
+#header a:link, #header a:visited {
+  color: white;
+}
+
+#header a:hover {
+  text-decoration: underline;
 }
 
 #header table {
   width: 100%;
+}
+
+.headtitle {
+  font-size: 30px;
+}
+
+.right {
+  text-align: right;
 }
 
 #contents {
