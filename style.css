@@ -1,7 +1,21 @@
-body {
-  margin-right: 10%;
-  margin-left: 10%;
-  width: 80%;
+#frame {
+  width: 100%;
+  border: solid 1px black;
+}
+
+#header {
+  border: solid 1px black;
+}
+
+#header table {
+  width: 100%;
+}
+
+#contents {
+  border: solid 1px black;
+  width: 670px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 a {
@@ -60,6 +74,7 @@ div.focus {
 #calendar table {
   border-spacing: 0;
   border-collapse: collapse;
+  margin-left: 37px;
 }
 
 #calendar th {
