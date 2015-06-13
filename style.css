@@ -20,12 +20,23 @@ body {
 #footer {
   text-align: center;
   font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
   cursor: pointer;
 }
 
 #footer a {
   width: 100%;
+}
+
+.footer_focus, .footer_focus a {
+  background-color: dimgray;
   color: white;
+}
+
+.footer_nofocus, .footer_nofocus a {
+  background-color: darkgray;
+  color: black;
 }
 
 a {

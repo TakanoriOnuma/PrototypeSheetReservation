@@ -91,15 +91,17 @@ $(function() {
   $('#footer')
     .mouseover(function() {
       $(this)
-        .removeClass('dimgray')
-        .addClass('darkgray');
+        .removeClass('footer_nofocus')
+        .addClass('footer_focus');
     })
     .mouseleave(function() {
       $(this)
-        .removeClass('darkgray')
-        .addClass('dimgray');
+        .removeClass('footer_focus')
+        .addClass('footer_nofocus');
     })
     .click(function() {
+      // 一旦ハッシュを外した後に#topを付加する
+      location.hash = '';
       location.hash = 'top';
     });
 });
@@ -124,7 +126,7 @@ $(function() {
   <div id="calendar"></div>
 </div>
 <!-- footer -->
-<div id="footer" class="dimgray">
+<div id="footer" class="footer_nofocus">
   <a href="#top">ページトップへ</a>
 </div>
 </body>
