@@ -235,4 +235,8 @@ table#revinfo {
 .space {
   padding-right: 10px;
 }
+
+#contents > table {
+  width: 100%;
+}
 /* admin部分終了 */

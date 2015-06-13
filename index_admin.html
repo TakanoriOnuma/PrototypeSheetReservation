@@ -108,6 +108,16 @@ $(function() {
       location.hash = '';
       location.hash = 'top';
     });
+
+  $('#img-rev-list')
+    .mouseover(function() {
+      var $img = $('img', this);
+      $img.attr('src', 'rev_list_on.png');
+    })
+    .mouseleave(function() {
+      var $img = $('img', this);
+      $img.attr('src', 'rev_list.png');
+    });
 });
 </script>
 <title>年間シート予約</title>
@@ -131,7 +141,12 @@ $(function() {
 <td>
 <!-- contents -->
 <div id="contents">
-  <h1><span id="calmonth"></span> <span>カレンダー</span></h1>
+  <table>
+    <tr>
+      <td><h1><span id="calmonth"></span> <span>カレンダー</span></h1></td>
+      <td class="right"><a href="rev-list.html" id="img-rev-list"><img src="rev_list.png" height="41" width="170" alt="" /></a></td>
+    </tr>
+  </table>
   <div id="calbar"></div>
   <br>
   <div id="calendar"></div>
