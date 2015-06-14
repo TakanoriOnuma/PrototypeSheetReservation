@@ -778,7 +778,13 @@ function initRevList() {
 
   $('#contents input[type="button"]').click(function() {
     if(confirm('チェックした項目を削除してもよろしいですか？')) {
-
+      $($('#rev-list input[type="checkbox"]:checked').get().reverse()).each(function(idx, elem) {
+        var month = parseInt($(this).attr('month'));
+        var day = parseInt($(this).attr('day'));
+        var index = parseInt($(this).attr('idx'));
+        REV[month][day].splice(index, 1);
+      })
+      setRevList();
     }
   });
 
