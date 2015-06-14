@@ -776,6 +776,12 @@ function setRegGameinfo() {
 function initRevList() {
   setRevList();
 
+  $('#contents input[type="button"]').click(function() {
+    if(confirm('チェックした項目を削除してもよろしいですか？')) {
+
+    }
+  });
+
   $(document)
     .on('change', '#monthfilter, #dayfilter, #namefilter, #oppfilter, #hourfilter', function() {
       setRevList();
@@ -870,8 +876,10 @@ function setRevList() {
           }
         }
 
-
         var $tr = $('<tr id="row' + idx + '">').addClass('center');
+        var name = (REV[i][j][k].depart === '') ? '' : REV[i][j][k].depart + ' ';
+        name += (REV[i][j][k].pos === '') ? '' : REV[i][j][k].pos + ' ';
+        name += REV[i][j][k].name;
         var $checkbox = $('<input>');
         $checkbox
           .attr('type', 'checkbox')
@@ -883,7 +891,7 @@ function setRevList() {
         $tr
           .append($('<td>').html((i + 1) + '月'))
           .append($('<td>').html(j + '日'))
-          .append($('<td>').html(REV[i][j][k].name))
+          .append($('<td>').html(name))
           .append($('<td>').html(GAME[i][j][0].opp))
           .append($('<td>').html(GAME[i][j][0].start))
           .append($('<td>').html($checkbox));
