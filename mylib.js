@@ -505,20 +505,26 @@ function setRegGameinfo() {
     .append($('<th>').html('予約状況'))
     .append($('<th>').html('編集'));
   $game.append($th);
+  var idx = 0;
   for(var i = 0; i < GAME.length; i++) {
     for(var j = 1; j <= 31; j++) {
       if(GAME[i][j] !== null) {
-        var $tr = $('<tr>').addClass('center');
+        var $tr = $('<tr id="row' + idx + '">').addClass('center');
         var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
         $tr
           .append($('<td>').html((i + 1) + '月 ' + j + '日'))
           .append($('<td>').html(GAME[i][j].opp))
           .append($('<td>').html(GAME[i][j].start))
           .append($('<td>').html(num + ' / ' + SHEET))
-          .append($('<td>').html($('<input>').attr('type', 'button').val('編集')));
+          .append($('<td>').html($('<input>').attr('type', 'button').attr('row', 'row' + idx).val('編集')));
 
         $game.append($tr);
+        idx += 1;
       }
     }
   }
+
+  $('#reg-game input').click(function() {
+    alert($(this).attr('row'));
+  })
 }
