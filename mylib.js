@@ -542,12 +542,17 @@ function initGameinfo() {
       var oldDay = $button.attr('day');
       var oldIdx = $button.attr('idx');
       GAME[oldMonth][oldDay].splice(oldIdx, 1);
+
+      location.hash = '';
+      location.hash = row;
     }
     setRegGameinfo();
 
     return false;
   });
   $('#cancel').click(function() {
+    location.hash = '';
+    location.hash = $('#state').attr('revise');
     setRegGameinfo();
   });
   $('#delete').click(function() {
@@ -569,6 +574,8 @@ function setRegGameinfo() {
   $('#cancel').hide();
   $('#delete').hide();
   $('#notice-rev-info').hide();
+  $('#state').html('試合情報の登録');
+  $('#gameinfo-submit').val('登録');
 
   var $game = $('#reg-game');
   $game.children().remove();
@@ -648,5 +655,8 @@ function setRegGameinfo() {
 
     $('#cancel').show();
     $('#delete').show();
+
+    location.hash = '';
+    location.hash = 'state';
   })
 }
