@@ -8,15 +8,15 @@ for(var i = 0; i < GAME.length; i++) {
 }
 // monthは0から、dayは1から
 GAME[6 - 1][9] = {
-  opp: '横浜DeNA',
+  opp: '横浜DeNAベイスターズ',
   start: '18:00'
 };
 GAME[6 - 1][10] = {
-  opp: '横浜DeNA',
+  opp: '横浜DeNAベイスターズ',
   start: '18:00'
 };
 GAME[6 - 1][11] = {
-  opp: '横浜DeNA',
+  opp: '横浜DeNAベイスターズ',
   start: '18:00'
 };
 
@@ -34,37 +34,37 @@ GAME[6 - 1][14] = {
 };
 
 GAME[6 - 1][26] = {
-  opp: '福岡ソフトバンク',
+  opp: '福岡ソフトバンクホークス',
   start: '18:00'
 };
 GAME[6 - 1][27] = {
-  opp: '福岡ソフトバンク',
+  opp: '福岡ソフトバンクホークス',
   start: '14:00'
 };
 GAME[6 - 1][28] = {
-  opp: '福岡ソフトバンク',
+  opp: '福岡ソフトバンクホークス',
   start: '13:00'
 };
 
 GAME[7 - 1][4] = {
-  opp: '北海道日本ハム',
+  opp: '北海道日本ハムファイターズ',
   start: '18:00'
 };
 GAME[7 - 1][5] = {
-  opp: '北海道日本ハム',
+  opp: '北海道日本ハムファイターズ',
   start: '14:00'
 };
 
 GAME[7 - 1][10] = {
-  opp: 'オリックス',
+  opp: 'オリックス・バッファローズ',
   start: '18:00'
 };
 GAME[7 - 1][11] = {
-  opp: 'オリックス',
+  opp: 'オリックス・バッファローズ',
   start: '14:00'
 };
 GAME[7 - 1][12] = {
-  opp: 'オリックス',
+  opp: 'オリックス・バッファローズ',
   start: '13:00'
 };
 
@@ -122,7 +122,6 @@ var OPPS = [
   '広島カープ',
   '横浜DeNAベイスターズ'
 ];
-
 
 // URLの?以降に書かれているパラメータを取得する
 function getParams() {
@@ -489,5 +488,37 @@ function initGameinfo() {
   var $opp = $('#opp');
   for(var i = 0; i < OPPS.length; i++) {
     $opp.append($('<option>').html(OPPS[i]));
+  }
+
+  setRegGameinfo();
+}
+
+// 登録済み試合情報を列挙する
+function setRegGameinfo() {
+  var $game = $('#reg-game');
+  $game.children().remove();
+  var $th = $('<tr>');
+  $th
+    .append($('<th>').html('日付'))
+    .append($('<th>').html('対戦相手'))
+    .append($('<th>').html('開始時間'))
+    .append($('<th>').html('予約状況'))
+    .append($('<th>').html('編集'));
+  $game.append($th);
+  for(var i = 0; i < GAME.length; i++) {
+    for(var j = 1; j <= 31; j++) {
+      if(GAME[i][j] !== null) {
+        var $tr = $('<tr>').addClass('center');
+        var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
+        $tr
+          .append($('<td>').html((i + 1) + '月 ' + j + '日'))
+          .append($('<td>').html(GAME[i][j].opp))
+          .append($('<td>').html(GAME[i][j].start))
+          .append($('<td>').html(num + ' / ' + SHEET))
+          .append($('<td>').html($('<input>').attr('type', 'button').val('編集')));
+
+        $game.append($tr);
+      }
+    }
   }
 }
