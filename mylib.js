@@ -3,70 +3,70 @@ var GAME = new Array(12);
 for(var i = 0; i < GAME.length; i++) {
   GAME[i] = new Array(32);
   for(var j = 1; j <= 31; j++) {
-    GAME[i][j] = null;
+    GAME[i][j] = [];
   }
 }
 // monthは0から、dayは1から
-GAME[6 - 1][9] = {
+GAME[6 - 1][9].push({
   opp: '横浜DeNAベイスターズ',
   start: '18:00'
-};
-GAME[6 - 1][10] = {
+});
+GAME[6 - 1][10].push({
   opp: '横浜DeNAベイスターズ',
   start: '18:00'
-};
-GAME[6 - 1][11] = {
+});
+GAME[6 - 1][11].push({
   opp: '横浜DeNAベイスターズ',
   start: '18:00'
-};
+});
 
-GAME[6 - 1][12] = {
+GAME[6 - 1][12].push({
   opp: '中日ドラゴンズ',
   start: '18:00'
-};
-GAME[6 - 1][13] = {
+});
+GAME[6 - 1][13].push({
   opp: '中日ドラゴンズ',
   start: '18:00'
-};
-GAME[6 - 1][14] = {
+});
+GAME[6 - 1][14].push({
   opp: '中日ドラゴンズ',
   start: '18:00'
-};
+});
 
-GAME[6 - 1][26] = {
+GAME[6 - 1][26].push({
   opp: '福岡ソフトバンクホークス',
   start: '18:00'
-};
-GAME[6 - 1][27] = {
+});
+GAME[6 - 1][27].push({
   opp: '福岡ソフトバンクホークス',
   start: '14:00'
-};
-GAME[6 - 1][28] = {
+});
+GAME[6 - 1][28].push({
   opp: '福岡ソフトバンクホークス',
   start: '13:00'
-};
+});
 
-GAME[7 - 1][4] = {
+GAME[7 - 1][4].push({
   opp: '北海道日本ハムファイターズ',
   start: '18:00'
-};
-GAME[7 - 1][5] = {
+});
+GAME[7 - 1][5].push({
   opp: '北海道日本ハムファイターズ',
   start: '14:00'
-};
+});
 
-GAME[7 - 1][10] = {
+GAME[7 - 1][10].push({
   opp: 'オリックス・バッファローズ',
   start: '18:00'
-};
-GAME[7 - 1][11] = {
+});
+GAME[7 - 1][11].push({
   opp: 'オリックス・バッファローズ',
   start: '14:00'
-};
-GAME[7 - 1][12] = {
+});
+GAME[7 - 1][12].push({
   opp: 'オリックス・バッファローズ',
   start: '13:00'
-};
+});
 
 
 // 登録情報
@@ -162,7 +162,7 @@ function makeCalendar(year, month, $output) {
   for(var i = 0; i < 5; i++) {
     var $week = $('<tr>');
     for(var j = 0; j < 7; j++) {
-      if(date[i * 7 + j] === ' ' || GAME[month][date[i * 7 + j]] === null) {
+      if(date[i * 7 + j] === ' ' || GAME[month][date[i * 7 + j]].length === 0) {
         var $noGame = $('<td>').addClass('nogame');
         $noGame.append(($('<span>').addClass('day').html(date[i * 7 + j])));
         $week.append($noGame);
@@ -171,9 +171,9 @@ function makeCalendar(year, month, $output) {
         var $oneGame = $('<td>').addClass('game');
         var $info = $('<div>').addClass('center');
         $info
-          .append(GAME[month][date[i * 7 + j]].opp)
+          .append(GAME[month][date[i * 7 + j]][0].opp)
           .append('<br>')
-          .append(GAME[month][date[i * 7 + j]].start);
+          .append(GAME[month][date[i * 7 + j]][0].start);
         $oneGame
           .append(($('<span>').addClass('day').html(date[i * 7 + j])))
           .append('<br>')
@@ -347,7 +347,7 @@ function gameInitial_admin() {
 // $gameinfo: 入れるところ
 function setGameinfo(date, $gameinfo) {
   var $date = $('<span>').html((date['month'] + 1) + '月' + date['day'] + '日');
-  var game = GAME[date['month']][date['day']];
+  var game = GAME[date['month']][date['day']][0];
   var $opp  = $('<span>').html(game.opp);
   var $start = $('<span>').html(game.start);
 
@@ -538,13 +538,13 @@ function setRegGameinfo() {
   var idx = 0;
   for(var i = 0; i < GAME.length; i++) {
     for(var j = 1; j <= 31; j++) {
-      if(GAME[i][j] !== null) {
+      for(var k = 0; k < GAME[i][j].length; k++) {
         var $tr = $('<tr id="row' + idx + '">').addClass('center');
         var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
         $tr
           .append($('<td>').html((i + 1) + '月 ' + j + '日'))
-          .append($('<td>').html(GAME[i][j].opp))
-          .append($('<td>').html(GAME[i][j].start))
+          .append($('<td>').html(GAME[i][j][k].opp))
+          .append($('<td>').html(GAME[i][j][k].start))
           .append($('<td>').html(num + ' / ' + SHEET))
           .append($('<td>').html($('<input>').attr('type', 'button').attr('row', 'row' + idx).val('編集')));
 
