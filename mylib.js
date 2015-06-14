@@ -529,9 +529,12 @@ function initGameinfo() {
 
 // 登録済み試合情報を列挙する
 function setRegGameinfo() {
+  $('#cancel').hide();
+  $('#delete').hide();
+
   var $game = $('#reg-game');
   $game.children().remove();
-  var $th = $('<tr>');
+  var $th = $('<tr>').addClass('lightgray');
   $th
     .append($('<th>').html('日付'))
     .append($('<th>').html('対戦相手'))
@@ -545,12 +548,20 @@ function setRegGameinfo() {
       for(var k = 0; k < GAME[i][j].length; k++) {
         var $tr = $('<tr id="row' + idx + '">').addClass('center');
         var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
+        var $button = $('<input>');
+        $button
+          .attr('type', 'button')
+          .attr('row', 'row' + idx)
+          .attr('month', i)
+          .attr('day', j)
+          .attr('idx', k)
+          .val('編集');
         $tr
           .append($('<td>').html((i + 1) + '月 ' + j + '日'))
           .append($('<td>').html(GAME[i][j][k].opp))
           .append($('<td>').html(GAME[i][j][k].start))
           .append($('<td>').html(num + ' / ' + SHEET))
-          .append($('<td>').html($('<input>').attr('type', 'button').attr('row', 'row' + idx).val('編集')));
+          .append($('<td>').html($button));
 
         $game.append($tr);
         idx += 1;
@@ -559,6 +570,32 @@ function setRegGameinfo() {
   }
 
   $('#reg-game input').click(function() {
-    alert($(this).attr('row'));
+    var row = $(this).attr('row');
+    var month = $(this).attr('month');
+    var day = $(this).attr('day');
+    var idx = $(this).attr('idx');
+    $('#reg-game tr').each(function(idx, elem) {
+      if($(this).attr('id') === row) {
+        $(this).addClass('selected');
+        $('input', this).val('編集中');
+      }
+      else {
+        $(this).removeClass('selected');
+        $('input', this).val('編集');
+      }
+    })
+    $('#state')
+      .html('試合情報の編集')
+      .attr('revise', row);
+    $('#gameinfo input[type="submit"]').val('編集');
+
+    $('#month').val(month);
+    $('#day').val(day);
+    $('#opp').val(GAME[month][day][idx].opp);
+    $('#hour').val(GAME[month][day][idx].start.slice(0, 2));
+    $('#minute').val(GAME[month][day][idx].start.slice(-2));
+
+    $('#cancel').show();
+    $('#delete').show();
   })
 }

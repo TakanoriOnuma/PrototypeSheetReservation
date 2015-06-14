@@ -275,4 +275,8 @@ table#revinfo {
   padding-top: 2px;
   padding-bottom: 2px;
 }
+
+.selected {
+  background-color: orange;
+}
 /* admin部分終了 */

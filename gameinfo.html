@@ -48,7 +48,7 @@ $(function() {
 <td>
 <!-- contents -->
 <div id="contents">
-  <h1>試合情報の登録</h1>
+  <h1 id="state">試合情報の登録</h1>
   <form id="gameinfo">
     <table>
       <tr>
@@ -66,7 +66,11 @@ $(function() {
         <td><input type="text" id="minute" name=""> 分</td>
       </tr>
       <tr>
-        <td><input type="submit" id="gameinfo-submit" name="" value="登録"></td>
+        <td colspan="3">
+          <input type="submit" id="gameinfo-submit" name="" value="登録">
+          <input type="button" id="cancel" value="キャンセル" name="">
+          <input type="button" id="delete" value="削除" name="">
+        </td>
       </tr>
     </table>
   </form>
