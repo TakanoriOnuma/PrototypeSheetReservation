@@ -594,9 +594,9 @@ function initGameinfo() {
 // 登録済み試合情報を列挙する
 function setRegGameinfo() {
   // フィルター情報を取得
-  var monthfilter = $('#monthfilter').val();
-  var oppfilter = $('#oppfilter').val();
-  var hourfilter = $('#hourfilter').val();
+  var monthfilter = ($('#monthfilter').val() === undefined) ? '日付' : $('#monthfilter').val();
+  var oppfilter = ($('#oppfilter').val() === undefined) ? '対戦相手' : $('#oppfilter').val();
+  var hourfilter = ($('#hourfilter').val() === undefined) ? '開始時間' : $('#hourfilter').val();
 
   $('#cancel').hide();
   $('#delete').hide();
@@ -622,8 +622,6 @@ function setRegGameinfo() {
     .append($('<option>').html('～18:00'))
     .append($('<option>').html('18:00～'));
 
-  // 怖いけど奇跡的に動く
-  // undefinedでセットしたら無視される？
   $monthfilter.val(monthfilter);
   $oppfilter.val(oppfilter);
   $hourfilter.val(hourfilter);
