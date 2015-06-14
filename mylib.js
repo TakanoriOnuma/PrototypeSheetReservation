@@ -772,3 +772,126 @@ function setRegGameinfo() {
     location.hash = 'state';
   })
 }
+
+function initRevList() {
+  setRevList();
+
+  $(document)
+    .on('change', '#monthfilter, #dayfilter, #namefilter, #oppfilter, #hourfilter', function() {
+      setRevList();
+    });
+}
+
+// 予約登録者をセットする
+function setRevList() {
+  // フィルター情報を取得
+  var monthfilter = ($('#monthfilter').val() === undefined) ? '月' : $('#monthfilter').val();
+  var dayfilter = ($('#dayfilter').val() === undefined) ? '日' : $('#dayfilter').val();
+  var namefilter = ($('#namefilter').val() === undefined) ? '予約者名' : $('#namefilter').val();
+  var oppfilter = ($('#oppfilter').val() === undefined) ? '対戦相手' : $('#oppfilter').val();
+  var hourfilter = ($('#hourfilter').val() === undefined) ? '開始時間' : $('#hourfilter').val();
+
+  var $revlist = $('#rev-list');
+  $revlist.children().remove();
+  var $th = $('<tr>').addClass('lightgray');
+  var $monthfilter = $('<select id="monthfilter">');
+  $monthfilter
+    .append($('<option>').html('月'));
+  for(var i = 1; i <= 12; i++) {
+    $monthfilter.append($('<option>').html(i + '月'));
+  }
+  var $dayfilter = $('<select id="dayfilter">');
+  $dayfilter
+    .append($('<option>').html('日'));
+  for(var i = 1; i <= 31; i++) {
+    $dayfilter.append($('<option>').html(i + '日'));
+  }
+  var $namefilter = $('<select id="namefilter">').append($('<option>').html('予約者名'));
+
+  var $oppfilter = $('<select id="oppfilter">').append($('<option>').html('対戦相手'));
+  for(var i = 0; i < OPPS.length; i++) {
+    $oppfilter.append($('<option>').html(OPPS[i]));
+  }
+  var $hourfilter = $('<select id="hourfilter">').append($('<option>').html('開始時間'));
+  $hourfilter
+    .append($('<option>').html('～18:00'))
+    .append($('<option>').html('18:00～'));
+
+  $monthfilter.val(monthfilter);
+  $dayfilter.val(dayfilter);
+  $namefilter.val(namefilter);
+  $oppfilter.val(oppfilter);
+  $hourfilter.val(hourfilter);
+  $th
+    .append($('<th>').append($monthfilter))
+    .append($('<th>').append($dayfilter))
+    .append($('<th>').append($namefilter))
+    .append($('<th>').append($oppfilter))
+    .append($('<th>').append($hourfilter))
+    .append($('<th>').html('キャンセル'));
+  $revlist.append($th);
+
+  var idx = 0;
+  for(var i = 0; i < REV.length; i++) {
+    if(monthfilter !== undefined && monthfilter !== '月') {
+      var monthfil = parseInt(monthfilter.slice(0, -1)) - 1;
+      if(monthfil !== i) {
+        continue;
+      }
+    }
+    for(var j = 1; j <= 31; j++) {
+      if(REV[i][j] === null) {
+        continue;
+      }
+      if(dayfilter !== undefined && dayfilter !== '日') {
+        var dayfil = parseInt(dayfilter.slice(0, -1));
+        if(dayfil !== j) {
+          continue;
+        }
+      }
+      for(var k = 0; k < REV[i][j].length; k++) {
+        if(oppfilter !== undefined && oppfilter !== '対戦相手') {
+          if(oppfilter !== GAME[i][j][0].opp) {
+            continue;
+          }
+        }
+        if(hourfilter !== undefined && hourfilter !== '開始時間') {
+          if(hourfilter.charAt(0) === '～') {
+            var hourfil = parseInt(hourfilter.slice(1, 3));
+            if(hourfil <= parseInt(GAME[i][j][0].start.slice(0, 2))) {
+              continue;
+            }
+          }
+          else {
+            var hourfil = parseInt(hourfilter.slice(0, 2));
+            if(hourfil > parseInt(GAME[i][j][0].start.slice(0, 2))) {
+              continue;
+            }
+          }
+        }
+
+
+        var $tr = $('<tr id="row' + idx + '">').addClass('center');
+        var $checkbox = $('<input>');
+        $checkbox
+          .attr('type', 'checkbox')
+          .attr('row', 'row' + idx)
+          .attr('month', i)
+          .attr('day', j)
+          .attr('idx', k)
+          .val('編集');
+        $tr
+          .append($('<td>').html((i + 1) + '月'))
+          .append($('<td>').html(j + '日'))
+          .append($('<td>').html(REV[i][j][k].name))
+          .append($('<td>').html(GAME[i][j][0].opp))
+          .append($('<td>').html(GAME[i][j][0].start))
+          .append($('<td>').html($checkbox));
+
+        $revlist.append($tr);
+        idx += 1;
+      }
+    }
+  }
+
+}

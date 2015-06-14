@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="mylib.js"></script>
+<script type="text/javascript">
+$(function() {
+  initRevList();
+
+  $('#footer')
+    .mouseover(function() {
+      $(this)
+        .removeClass('footer_nofocus')
+        .addClass('footer_focus');
+    })
+    .mouseleave(function() {
+      $(this)
+        .removeClass('footer_focus')
+        .addClass('footer_nofocus');
+    })
+    .click(function() {
+      // 一旦ハッシュを外した後に#topを付加する
+      location.hash = '';
+      location.hash = 'top';
+    });
+});
+</script>
+<title>年間シート予約</title>
+</head>
+<body id="top" name="top">
+<table id="frame">
+<tr>
+<td>
+<!-- header -->
+<div id="header">
+  <table>
+    <tr>
+      <td><a href="index_admin.html"><strong class="headtitle">年間シート 予約管理システム</strong></a></td>
+      <td class="right"><a href="config.html">設定</a><span class="space"> | </span><a href="index.html"> ログアウト</a></td>
+    </tr>
+  </table>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- contents -->
+<div id="contents">
+  <h1>予約一覧</h1>
+  <table id="rev-list" border="1"></table>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- footer -->
+<div id="footer" class="footer_nofocus">
+  <a href="#top">ページトップへ</a>
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>
