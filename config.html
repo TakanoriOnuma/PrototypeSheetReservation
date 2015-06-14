@@ -7,7 +7,7 @@
 <script type="text/javascript" src="mylib.js"></script>
 <script type="text/javascript">
 $(function() {
-  gameInitial();
+  valueSet();
 
   $('#footer')
     .mouseover(function() {
@@ -37,8 +37,8 @@ $(function() {
 <div id="header">
   <table>
     <tr>
-      <td><a href="index.html"><strong class="headtitle">年間シート 予約管理システム</strong></a></td>
-      <td class="right"><a href="login.html">管理者ログイン</a></td>
+      <td><a href="index_admin.html"><strong class="headtitle">年間シート 予約管理システム</strong></a></td>
+      <td class="right"><a href="config.html">設定</a><span class="space"> | </span><a href="index.html"> ログアウト</a></td>
     </tr>
   </table>
 </div>
@@ -48,34 +48,33 @@ $(function() {
 <td>
 <!-- contents -->
 <div id="contents">
-  <h1 class="gameinfo"></h1>
-  <h2>予約状況 <span class="sheet-info"></span></h2>
-  <table id="revinfo" border="1"></table>
-  <h2>予約登録 <span class="rev-info"></span></h2>
-  <form id="revform">
-    <table>
+  <h1>設定</h1>
+  <div id="config-menu">
+    <table class="config-menubar">
       <tr>
-        <td><label for="name">名前：</label></td>
-        <td><input type="text" name="name" id="name"> <span class="attention">※必ず記入してください</span></td>
-      </tr>
-      <tr>
-        <td><label for="depart">部署：</label></td>
-        <td><input type="text" name="depart" id="depart"></td>
-      </tr>
-      <tr>
-        <td><label for="pos">役職：</label></td>
-        <td><input type="text" name="pos" id="pos"></td>
-      </tr>
-      <tr>
-        <td><label for="sheet">席数：</label></td>
-        <td><select name="sheet" id="sheet"></select> 席 <span class="attention">※必ず記入してください</span></td>
-      </tr>
-      <tr>
-        <td colspan="2"><input type="submit" id="revbut" value="登録"></td>
+        <td>試合情報の登録・編集</td>
+        <td class="right"><a href="gameinfo.html">変更→</a></td>
       </tr>
     </table>
-    <ul class="error"></ul>
-  </form>
+    <br>
+    <table>
+      <tr>
+        <td>年間シート数・最大予約可能人数</td>
+        <td class="right"><a href="sheet-config.html">変更→</a></td>
+      </tr>
+    </table>
+    <div class="config-info">
+      <span>年間シート数： <span id="sheetnum" class="enpha-blue">5</span> 席</span><br>
+      <span>最大予約可能人数： <span id="max-revnum" class="enpha-blue">10</span> 人</span>
+    </div>
+    <br>
+    <table>
+      <tr>
+        <td>管理者ログインパスワード</td>
+        <td class="right"><a href="pass-change.html">変更→</a></td>
+      </tr>
+    </table>
+  </div>
 </div>
 </td>
 </tr>

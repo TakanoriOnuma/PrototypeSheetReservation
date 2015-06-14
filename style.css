@@ -184,6 +184,10 @@ div.focus {
   text-align: center;
 }
 
+.right {
+  text-align: right;
+}
+
 h2 {
   border-left: solid 10px skyblue;
   padding-left: 5px;
@@ -230,3 +234,91 @@ table#revinfo {
   color: green;
 }
 /* game.html部分終了 */
+
+/* admin部分 */
+.space {
+  padding-right: 10px;
+}
+
+#contents > table {
+  width: 100%;
+}
+
+#config-menu table {
+  width: 400px;
+  background-color: #505050;
+  color: white;
+  border-radius: 5px;
+}
+#config-menu table td {
+  padding: 5px;
+}
+
+#config-menu a {
+  color: white;
+}
+#config-menu a:hover {
+  text-decoration: underline;
+}
+.config-info {
+  width: 378px;
+  padding: 10px;
+  border: solid 1px gray;
+}
+.enpha-blue {
+  font-size: 20px;
+  font-weight: bold;
+  color: blue;
+}
+
+
+#gameinfo input[type="text"] {
+  width: 20px;
+}
+#gameinfo td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.selected {
+  background-color: orange;
+}
+
+#notice-rev-info {
+  position: absolute;
+  top: 100px;
+  left: 600px;
+  width: 250px;
+  background-color: white;
+  border: solid 3px black;
+  padding: 5px;
+}
+#notice-rev-info strong {
+  font-size: 20px;
+}
+#notice-rev-info ol {
+  margin: 0;
+  margin-left: 30px;
+  margin-top: 5px;
+  padding: 0;
+}
+
+#monthfilter, #dayfilter, #namefilter, #oppfilter, #hourfilter {
+  background-color: lightgray;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#monthfilter option, #dayfilter option, #namefilter option, #oppfilter option, #hourfilter option {
+  background-color: white;
+  font-weight: normal;
+}
+
+#rev-list input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* admin部分終了 */
