@@ -266,4 +266,13 @@ table#revinfo {
   font-weight: bold;
   color: blue;
 }
+
+
+#gameinfo input[type="text"] {
+  width: 20px;
+}
+#gameinfo td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
 /* admin部分終了 */

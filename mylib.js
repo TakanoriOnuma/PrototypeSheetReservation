@@ -106,6 +106,24 @@ var SHEET = 5;
 // 最大予約人数
 var MAXNUM = 10;
 
+// 対戦相手
+var OPPS = [
+  // パ・リーグ
+  '福岡ソフトバンク',
+  '北海道日本ハム',
+  '埼玉西武',
+  'オリックス',
+  '千葉ロッテ',
+  // セ・リーグ
+  '中日ドラゴンズ',
+  '東京ヤクルト',
+  '巨人',
+  '阪神タイガース',
+  '広島カープ',
+  '横浜DeNAベイスターズ'
+];
+
+
 // URLの?以降に書かれているパラメータを取得する
 function getParams() {
   var url    = location.href;
@@ -463,4 +481,13 @@ function parseDate(date) {
 function valueSet() {
   $('#sheetnum').html(SHEET);
   $('#max-revnum').html(MAXNUM);
+}
+
+
+// gameinfo.htmlで使う初期化関数
+function initGameinfo() {
+  var $opp = $('#opp');
+  for(var i = 0; i < OPPS.length; i++) {
+    $opp.append($('<option>').html(OPPS[i]));
+  }
 }
