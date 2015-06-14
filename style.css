@@ -242,7 +242,7 @@ table#revinfo {
 
 #config-menu table {
   width: 400px;
-  background-color: dimgray;
+  background-color: #505050;
   color: white;
   border-radius: 5px;
 }
