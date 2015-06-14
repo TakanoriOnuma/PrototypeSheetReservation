@@ -296,7 +296,7 @@ function gameInitial() {
     var pos = $('#pos').val();
     $('.error').children().remove();
     if(name === '') {
-      $('.error').append($('<li>').append('名前を入力してください'));
+      alert('名前を入力してください');
       return false;
     }
     if(REV[date['month']][date['day']] !== null && REV[date['month']][date['day']].length >= MAXNUM) {
@@ -346,7 +346,7 @@ function gameInitial_admin() {
     var pos = $('#pos').val();
     $('.error').children().remove();
     if(name === '') {
-      $('.error').append($('<li>').append('名前を入力してください'));
+      alert('名前を入力してください');
       return false;
     }
     if(REV[date['month']][date['day']] !== null && REV[date['month']][date['day']].length >= MAXNUM) {
