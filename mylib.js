@@ -529,9 +529,38 @@ function initGameinfo() {
         'start' : ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)
       });
     }
+    else if($('#gameinfo input[type="submit"]').val() === '編集') {
+      GAME[month - 1][day].push({
+        'opp' : opp,
+        'start' : ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)
+      });
+
+      var row = $('#state').attr('revise');
+      var $button = $('#' + row + ' input');
+
+      var oldMonth = $button.attr('month');
+      var oldDay = $button.attr('day');
+      var oldIdx = $button.attr('idx');
+      GAME[oldMonth][oldDay].splice(oldIdx, 1);
+    }
     setRegGameinfo();
 
     return false;
+  });
+  $('#cancel').click(function() {
+    setRegGameinfo();
+  });
+  $('#delete').click(function() {
+    if(confirm('削除してもよろしいですか？')) {
+      var row = $('#state').attr('revise');
+      var $button = $('#' + row + ' input');
+
+      var oldMonth = $button.attr('month');
+      var oldDay = $button.attr('day');
+      var oldIdx = $button.attr('idx');
+      GAME[oldMonth][oldDay].splice(oldIdx, 1);
+      setRegGameinfo();
+    }
   })
 }
 
@@ -580,7 +609,7 @@ function setRegGameinfo() {
 
   $('#reg-game input').click(function() {
     var row = $(this).attr('row');
-    var month = $(this).attr('month');
+    var month = parseInt($(this).attr('month'));
     var day = $(this).attr('day');
     var idx = $(this).attr('idx');
     $('#reg-game tr').each(function(idx, elem) {
@@ -598,7 +627,7 @@ function setRegGameinfo() {
       .attr('revise', row);
     $('#gameinfo input[type="submit"]').val('編集');
 
-    $('#month').val(month);
+    $('#month').val(month + 1);
     $('#day').val(day);
     $('#opp').val(GAME[month][day][idx].opp);
     $('#hour').val(GAME[month][day][idx].start.slice(0, 2));
