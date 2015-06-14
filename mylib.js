@@ -491,6 +491,36 @@ function initGameinfo() {
   }
 
   setRegGameinfo();
+
+  $('#gameinfo').submit(function() {
+    var month = parseInt($('#month').val());
+    var day = parseInt($('#day').val());
+    var opp = $('#opp').val();
+    var hour = parseInt($('#hour').val());
+    var minute = parseInt($('#minute').val());
+    if(isNaN(month) || month < 1 || month > 12) {
+      alert('月の入力エラー');
+      return false;
+    }
+    if(isNaN(day) || day < 1 || day > 31) {
+      alert('日の入力エラー');
+      return false;
+    }
+    if(isNaN(hour) || hour < 0 || hour > 24) {
+      alert('時の入力エラー');
+      return false;
+    }
+    if(isNaN(minute) || minute < 0 || minute > 60) {
+      alert('分の入力エラー');
+      return false;
+    }
+
+    if($('#gameinfo input[type="submit"]').val() === '登録') {
+
+    }
+
+    return false;
+  })
 }
 
 // 登録済み試合情報を列挙する
