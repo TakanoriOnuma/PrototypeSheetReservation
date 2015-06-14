@@ -247,6 +247,84 @@ function gameInitial() {
     return false;
   });
 }
+
+// adminバージョンの初期設定
+function gameInitial_admin() {
+  var date = getParams();
+  date['year'] = parseInt(date['year']);
+  date['month'] = parseInt(date['month']);
+  date['day'] = parseInt(date['day']);
+
+  setGameinfo(date, $('.gameinfo'));
+  setRevinfo_admin(date, $('#revinfo'));
+  setSheetNum(date);
+  setRevNum(date);
+
+  var $sheet = $('#sheet');
+  for(var i = 0; i < SHEET; i++) {
+    $sheet.append($('<option value="' + (i + 1) + '">').html(i + 1));
+  }
+
+  $('#revform').submit(function() {
+    var name = $('#name').val();
+    var sheet = $('#sheet').val();
+    var depart = $('#depart').val();
+    var pos = $('#pos').val();
+    $('.error').children().remove();
+    if(name === '') {
+      $('.error').append($('<li>').append('名前を入力してください'));
+      return false;
+    }
+    if(REV[date['month']][date['day']] !== null && REV[date['month']][date['day']].length >= MAXNUM) {
+      alert('これ以上予約することは出来ません。');
+      return false;
+    }
+
+    if(REV[date['month']][date['day']] === null) {
+      REV[date['month']][date['day']] = [];
+    }
+    REV[date['month']][date['day']].push({
+      name : name,
+      depart : depart,
+      pos : pos,
+      sheet : parseInt(sheet),
+      date : parseDate(new Date())
+    });
+
+    setRevinfo_admin(date, $('#revinfo'));
+    setSheetNum(date);
+    setRevNum(date);
+    return false;
+  });
+
+  // adminバージョンの追加部分
+  $(document)
+    .on('mouseover', '#revinfo img', function() {
+      $(this).attr('src', 'batsu_on.png');
+    })
+    .on('mouseleave', '#revinfo img', function() {
+      $(this).attr('src', 'batsu.png');
+    })
+    .on('click', '#revinfo img', function() {
+      var number = $(this).attr('number');
+      var str = '以下の情報を削除してもよろしいですか？\n';
+      var rev = REV[date['month']][date['day']][number];
+      var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
+      name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
+      name += rev['name'];
+      str += '予約者名：' + name + '\n';
+      str += '予約席数：' + rev['sheet'] + '席\n';
+      str += '登録日：' + rev['date'] + '\n';
+      if(confirm(str)) {
+        REV[date['month']][date['day']].splice(number, 1);
+        setRevinfo_admin(date, $('#revinfo'));
+        setSheetNum(date);
+        setRevNum(date);
+      }
+    });
+}
+
+
 // ゲーム情報をセットする
 // date: year, month, dayが入っている
 // $gameinfo: 入れるところ
@@ -290,6 +368,36 @@ function setRevinfo(date, $revinfo) {
     }
   }
 }
+
+// adminバージョンの登録状況をセットする
+// date: year, month, dayが入っている
+// $revinfo: 入れるところ
+function setRevinfo_admin(date, $revinfo) {
+  $revinfo.children().remove();
+  var $th = $('<tr>').addClass('lightgray');
+  $th
+    .append($('<th>').html('予約者名'))
+    .append($('<th>').html('予約席数'))
+    .append($('<th>').html('登録日'))
+    .append($('<th>').html('キャンセル'));
+  $revinfo.append($th);
+  if(REV[date['month']][date['day']] !== null) {
+    var revList = REV[date['month']][date['day']];
+    for(var i = 0; i < revList.length; i++) {
+      var $tr = $('<tr>').attr('number', i);
+      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
+      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
+      name += revList[i]['name'];
+      $tr
+        .append($('<td>').html(name))
+        .append($('<td>').html(revList[i]['sheet'] + '席'))
+        .append($('<td>').html(revList[i]['date']))
+        .append($('<td>').append($('<img>').attr('src', 'batsu.png').attr('number', i)));
+      $revinfo.append($tr);
+    }
+  }
+}
+
 
 // 予約席数を数える
 // date: year, month, dayが入っている

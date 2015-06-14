@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="mylib.js"></script>
+<script type="text/javascript">
+$(function() {
+  gameInitial_admin();
+
+  $('#footer')
+    .mouseover(function() {
+      $(this)
+        .removeClass('footer_nofocus')
+        .addClass('footer_focus');
+    })
+    .mouseleave(function() {
+      $(this)
+        .removeClass('footer_focus')
+        .addClass('footer_nofocus');
+    })
+    .click(function() {
+      // 一旦ハッシュを外した後に#topを付加する
+      location.hash = '';
+      location.hash = 'top';
+    });
+});
+</script>
+<title>年間シート予約</title>
+</head>
+<body id="top" name="top">
+<table id="frame">
+<tr>
+<td>
+<!-- header -->
+<div id="header">
+  <table>
+    <tr>
+      <td><a href="index_admin.html"><strong class="headtitle">年間シート 予約管理システム</strong></a></td>
+      <td class="right"><a href="config.html">設定</a><span class="space"> | </span><a href="index.html"> ログアウト</a></td>
+    </tr>
+  </table>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- contents -->
+<div id="contents">
+  <h1 class="gameinfo"></h1>
+  <h2>予約状況 <span class="sheet-info"></span></h2>
+  <table id="revinfo" border="1"></table>
+  <h2>予約登録 <span class="rev-info"></span></h2>
+  <form id="revform">
+    <table>
+      <tr>
+        <td><label for="name">名前：</label></td>
+        <td><input type="text" name="name" id="name"> <span class="attention">※必ず記入してください</span></td>
+      </tr>
+      <tr>
+        <td><label for="depart">部署：</label></td>
+        <td><input type="text" name="depart" id="depart"></td>
+      </tr>
+      <tr>
+        <td><label for="pos">役職：</label></td>
+        <td><input type="text" name="pos" id="pos"></td>
+      </tr>
+      <tr>
+        <td><label for="sheet">席数：</label></td>
+        <td><select name="sheet" id="sheet"></select> 席 <span class="attention">※必ず記入してください</span></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" id="revbut" value="登録"></td>
+      </tr>
+    </table>
+    <ul class="error"></ul>
+  </form>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<!-- footer -->
+<div id="footer" class="footer_nofocus">
+  <a href="#top">ページトップへ</a>
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>
