@@ -516,8 +516,12 @@ function initGameinfo() {
     }
 
     if($('#gameinfo input[type="submit"]').val() === '登録') {
-
+      GAME[month - 1][day].push({
+        'opp' : opp,
+        'start' : ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)
+      });
     }
+    setRegGameinfo();
 
     return false;
   })
