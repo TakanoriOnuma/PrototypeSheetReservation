@@ -567,6 +567,11 @@ function initGameinfo() {
       setRegGameinfo();
     }
   })
+
+  $(document)
+    .on('change', '#monthfilter, #oppfilter, #hourfilter', function() {
+      setRegGameinfo();
+    });
 }
 
 // 登録済み試合情報を列挙する
@@ -614,8 +619,35 @@ function setRegGameinfo() {
   $game.append($th);
   var idx = 0;
   for(var i = 0; i < GAME.length; i++) {
+    if(monthfilter !== undefined && monthfilter !== '日付') {
+      var monthfil = parseInt(monthfilter.slice(0, -1)) - 1;
+      if(monthfil !== i) {
+        continue;
+      }
+    }
     for(var j = 1; j <= 31; j++) {
       for(var k = 0; k < GAME[i][j].length; k++) {
+        if(oppfilter !== undefined && oppfilter !== '対戦相手') {
+          if(oppfilter !== GAME[i][j][k].opp) {
+            continue;
+          }
+        }
+        if(hourfilter !== undefined && hourfilter !== '開始時間') {
+          if(hourfilter.charAt(0) === '～') {
+            var hourfil = parseInt(hourfilter.slice(1, 3));
+            if(hourfil <= parseInt(GAME[i][j][k].start.slice(0, 2))) {
+              continue;
+            }
+          }
+          else {
+            var hourfil = parseInt(hourfilter.slice(0, 2));
+            if(hourfil > parseInt(GAME[i][j][k].start.slice(0, 2))) {
+              continue;
+            }
+          }
+        }
+
+
         var $tr = $('<tr id="row' + idx + '">').addClass('center');
         var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
         var $button = $('<input>');
