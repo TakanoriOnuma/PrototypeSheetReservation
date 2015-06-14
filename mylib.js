@@ -490,6 +490,14 @@ function initGameinfo() {
     $opp.append($('<option>').html(OPPS[i]));
   }
 
+  $(window).on('resize', function() {
+    var pos = $('#state').position();
+    $('#notice-rev-info').css({
+      'top' : pos.top + 80,
+      'left' : pos.left + 300
+    });
+  });
+
   setRegGameinfo();
 
   $('#gameinfo').submit(function() {
@@ -531,6 +539,7 @@ function initGameinfo() {
 function setRegGameinfo() {
   $('#cancel').hide();
   $('#delete').hide();
+  $('#notice-rev-info').hide();
 
   var $game = $('#reg-game');
   $game.children().remove();
@@ -594,6 +603,19 @@ function setRegGameinfo() {
     $('#opp').val(GAME[month][day][idx].opp);
     $('#hour').val(GAME[month][day][idx].start.slice(0, 2));
     $('#minute').val(GAME[month][day][idx].start.slice(-2));
+
+    $('#notice-rev-info').hide();
+    $('#notice-rev-info ol').children().remove();
+    if(REV[month][day] !== null) {
+      for(var i = 0; i < REV[month][day].length; i++) {
+        var name = '';
+        name += (REV[month][day][i].depart === '') ? '' : REV[month][day][i].depart + ' ';
+        name += (REV[month][day][i].pos === '') ? '' : REV[month][day][i].pos + ' ';
+        name += REV[month][day][i].name;
+        $('#notice-rev-info ol').append($('<li>').html(name));
+      }
+      $('#notice-rev-info').show();
+    }
 
     $('#cancel').show();
     $('#delete').show();
