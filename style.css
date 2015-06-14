@@ -239,4 +239,31 @@ table#revinfo {
 #contents > table {
   width: 100%;
 }
+
+#config-menu table {
+  width: 400px;
+  background-color: dimgray;
+  color: white;
+  border-radius: 5px;
+}
+#config-menu table td {
+  padding: 5px;
+}
+
+#config-menu a {
+  color: white;
+}
+#config-menu a:hover {
+  text-decoration: underline;
+}
+.config-info {
+  width: 378px;
+  padding: 10px;
+  border: solid 1px gray;
+}
+.enpha-blue {
+  font-size: 20px;
+  font-weight: bold;
+  color: blue;
+}
 /* admin部分終了 */

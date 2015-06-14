@@ -458,3 +458,9 @@ function parseDate(date) {
   return str;
 }
 // ==== game.htmlで使用終了 === //
+
+// config.htmlで使う値のセット
+function valueSet() {
+  $('#sheetnum').html(SHEET);
+  $('#max-revnum').html(MAXNUM);
+}
