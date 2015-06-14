@@ -580,10 +580,24 @@ function setRegGameinfo() {
   var $game = $('#reg-game');
   $game.children().remove();
   var $th = $('<tr>').addClass('lightgray');
+  var $monthfilter = $('<select id="monthfilter">');
+  $monthfilter
+    .append($('<option>').html('日付'));
+  for(var i = 1; i <= 12; i++) {
+    $monthfilter.append($('<option>').html(i + '月'));
+  }
+  var $oppfilter = $('<select id="oppfilter">').append($('<option>').html('対戦相手'));
+  for(var i = 0; i < OPPS.length; i++) {
+    $oppfilter.append($('<option>').html(OPPS[i]));
+  }
+  var $hourfilter = $('<select id="hourfilter">').append($('<option>').html('開始時間'));
+  $hourfilter
+    .append($('<option>').html('～18:00'))
+    .append($('<option>').html('18:00～'));
   $th
-    .append($('<th>').html('日付'))
-    .append($('<th>').html('対戦相手'))
-    .append($('<th>').html('開始時間'))
+    .append($('<th>').append($monthfilter))
+    .append($('<th>').append($oppfilter))
+    .append($('<th>').append($hourfilter))
     .append($('<th>').html('予約状況'))
     .append($('<th>').html('編集'));
   $game.append($th);
