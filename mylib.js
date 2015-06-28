@@ -84,21 +84,24 @@ REV[6 - 1][10].push({
   'depart' : '',
   'pos' : '',
   'sheet' : 2,
-  'date' : '2015-06-05 19:05'
+  'date' : '2015-06-05 19:05',
+  'password' : 'sato'
 });
 REV[6 - 1][10].push({
   'name' : '長瀬仁',
   'depart' : '',
   'pos' : '',
   'sheet' : 4,
-  'date' : '2015-06-06 20:05'
+  'date' : '2015-06-06 20:05',
+  'password' : 'nagase'
 });
 REV[6 - 1][10].push({
   'name' : '山口明子',
   'depart' : '',
   'pos' : '',
   'sheet' : 2,
-  'date' : '2015-06-07 08:25'
+  'date' : '2015-06-07 08:25',
+  'password' : 'yamaguchi'
 });
 
 REV[6 - 1][11] = [];
@@ -107,14 +110,16 @@ REV[6 - 1][11].push({
   'depart' : '',
   'pos' : '',
   'sheet' : 2,
-  'date' : '2015-06-05 08:25'
+  'date' : '2015-06-05 08:25',
+  'password' : 'abe'
 });
 REV[6 - 1][11].push({
   'name' : '名川健二',
   'depart' : '',
   'pos' : '',
   'sheet' : 1,
-  'date' : '2015-06-06 14:25'
+  'date' : '2015-06-06 14:25',
+  'password' : 'nagawa'
 });
 
 
@@ -124,21 +129,24 @@ REV[6 - 1][12].push({
   'depart' : '営業部',
   'pos'  : '係長',
   'sheet' : 2,
-  'date' : '2015-06-05 19:32'
+  'date' : '2015-06-05 19:32',
+  'password' : 'tanaka'
 });
 REV[6 - 1][12].push({
   'name' : '佐藤祐樹',
   'depart' : 'システム開発部',
   'pos'  : '',
   'sheet' : 1,
-  'date' : '2015-06-05 20:32'
+  'date' : '2015-06-05 20:32',
+  'password' : 'sato'
 });
 REV[6 - 1][12].push({
   'name' : '山田愛',
   'depart' : '',
   'pos'  : '',
   'sheet' : 5,
-  'date' : '2015-06-10 12:10'
+  'date' : '2015-06-10 12:10',
+  'password' : 'yamada'
 });
 
 // シート数
@@ -294,6 +302,7 @@ function gameInitial() {
     var sheet = $('#sheet').val();
     var depart = $('#depart').val();
     var pos = $('#pos').val();
+    var password = $('#password').val();
     $('.error').children().remove();
     if(name === '') {
       alert('名前を入力してください');
@@ -312,7 +321,8 @@ function gameInitial() {
       depart : depart,
       pos : pos,
       sheet : parseInt(sheet),
-      date : parseDate(new Date())
+      date : parseDate(new Date()),
+      password : password
     });
 
     setRevinfo(date, $('#revinfo'));
@@ -425,7 +435,8 @@ function setRevinfo(date, $revinfo) {
   $th
     .append($('<th>').html('予約者名'))
     .append($('<th>').html('予約席数'))
-    .append($('<th>').html('登録日'));
+    .append($('<th>').html('登録日'))
+    .append($('<th>').html('登録・削除'));
   $revinfo.append($th);
   if(REV[date['month']][date['day']] !== null) {
     var revList = REV[date['month']][date['day']];
@@ -434,13 +445,32 @@ function setRevinfo(date, $revinfo) {
       var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
       name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
       name += revList[i]['name'];
+      $reviseForm = $('<div>').addClass('reviseForm').attr('key', i);
+      $reviseForm
+        .append($('<input>').attr('type', 'password'))
+        .append($('<input>').attr('type', 'button').val('編集'))
+        .append($('<input>').attr('type', 'button').val('削除'));
       $tr
         .append($('<td>').html(name))
         .append($('<td>').html(revList[i]['sheet'] + '席'))
-        .append($('<td>').html(revList[i]['date']));
+        .append($('<td>').html(revList[i]['date']))
+        .append($('<td>').append($reviseForm));
       $revinfo.append($tr);
     }
   }
+
+  $('.reviseForm input[type="button"]').click(function() {
+    // password check
+    var $reviseForm = $(this).parent();
+    var key = $reviseForm.attr('key');
+    var password = $('input[type="password"]', $reviseForm).val();
+    if(revList[key]['password'] === password) {
+      alert($(this).val());
+    }
+    else {
+      alert('パスワードが正しくありません。');
+    }
+  });
 }
 
 // adminバージョンの登録状況をセットする
