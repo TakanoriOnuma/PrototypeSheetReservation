@@ -330,6 +330,39 @@ function gameInitial() {
     setRevNum(date);
     return false;
   });
+
+
+  $(document).on('click', '.reviseForm input[type="button"]', function() {
+    // password check
+    var $reviseForm = $(this).parent();
+    var key = $reviseForm.attr('key');
+    var password = $('input[type="password"]', $reviseForm).val();
+    if(REV[date['month']][date['day']][key]['password'] === password) {
+      if($(this).val() === '編集') {
+        alert('編集');
+      }
+      else if($(this).val() === '削除') {
+        var str = '以下の情報を削除してもよろしいですか？\n';
+        var rev = REV[date['month']][date['day']][key];
+        var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
+        name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
+        name += rev['name'];
+        str += '予約者名：' + name + '\n';
+        str += '予約席数：' + rev['sheet'] + '席\n';
+        str += '登録日：' + rev['date'] + '\n';
+        if(confirm(str)) {
+          REV[date['month']][date['day']].splice(key, 1);
+          setRevinfo(date, $('#revinfo'));
+          setSheetNum(date);
+          setRevNum(date);
+        }
+      }
+    }
+    else {
+      alert('パスワードが正しくありません。');
+    }
+  });
+
 }
 
 // adminバージョンの初期設定
@@ -459,18 +492,6 @@ function setRevinfo(date, $revinfo) {
     }
   }
 
-  $('.reviseForm input[type="button"]').click(function() {
-    // password check
-    var $reviseForm = $(this).parent();
-    var key = $reviseForm.attr('key');
-    var password = $('input[type="password"]', $reviseForm).val();
-    if(revList[key]['password'] === password) {
-      alert($(this).val());
-    }
-    else {
-      alert('パスワードが正しくありません。');
-    }
-  });
 }
 
 // adminバージョンの登録状況をセットする
