@@ -339,7 +339,21 @@ function gameInitial() {
     var password = $('input[type="password"]', $reviseForm).val();
     if(REV[date['month']][date['day']][key]['password'] === password) {
       if($(this).val() === '編集') {
-        alert('編集');
+        $('#revinfo input').attr('disabled', 'disabled');
+        $(this)
+          .removeAttr('disabled')
+          .val('保存');
+        var $sheet = $('.sheet', $('#revinfo div[key="' + key + '"]').parent().parent());
+        $sheet.parent().parent().addClass('selected');
+        var sheet = $sheet.html();
+        var $sheetList = $('<select>');
+        for(var i = 0; i < SHEET; i++) {
+          $sheetList.append($('<option value="' + (i + 1) + '">').html(i + 1));
+        }
+        $sheetList
+          .val(sheet)
+          .addClass('sheet');
+        $sheet.replaceWith($sheetList);
       }
       else if($(this).val() === '削除') {
         var str = '以下の情報を削除してもよろしいですか？\n';
@@ -356,6 +370,15 @@ function gameInitial() {
           setSheetNum(date);
           setRevNum(date);
         }
+      }
+      else if($(this).val() === '保存') {
+        var $sheet = $('.sheet', $('#revinfo div[key="' + key + '"]').parent().parent());
+        $sheet.parent().parent().removeClass('selected');
+        REV[date['month']][date['day']][key]['sheet'] = parseInt($sheet.val());
+        $('#revinfo input').removeAttr('disabled');
+        $sheet.replaceWith($('<span>').html(REV[date['month']][date['day']][key]['sheet']).addClass('sheet'));
+        $(this).val('編集');
+        setSheetNum(date);
       }
     }
     else {
@@ -485,7 +508,9 @@ function setRevinfo(date, $revinfo) {
         .append($('<input>').attr('type', 'button').val('削除'));
       $tr
         .append($('<td>').html(name))
-        .append($('<td>').html(revList[i]['sheet'] + '席'))
+        .append($('<td>')
+          .append($('<span>').html(revList[i]['sheet']).addClass('sheet'))
+          .append($('<span>').html('席')))
         .append($('<td>').html(revList[i]['date']))
         .append($('<td>').append($reviseForm));
       $revinfo.append($tr);

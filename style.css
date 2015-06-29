@@ -233,6 +233,10 @@ table#revinfo {
   font-size: 1.2em;
   color: green;
 }
+
+.sheet {
+  width: 35px;
+}
 /* game.html部分終了 */
 
 /* admin部分 */
