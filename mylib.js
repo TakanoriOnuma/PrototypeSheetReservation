@@ -341,6 +341,9 @@ function gameInitial() {
       if($(this).val() === '編集') {
         $('#revinfo input').attr('disabled', 'disabled');
         $('#revform input, select').attr('disabled', 'disabled');
+        $('#revinfo tr').addClass('gray');
+        $('#revinfo tr th').parent().removeClass('gray');
+        $(this).parent().parent().parent().removeClass('gray');
         $(this)
           .removeAttr('disabled')
           .val('保存');
@@ -375,6 +378,7 @@ function gameInitial() {
       else if($(this).val() === '保存') {
         var $sheet = $('.sheet', $('#revinfo div[key="' + key + '"]').parent().parent());
         $sheet.parent().parent().removeClass('selected');
+        $('#revinfo tr').removeClass('gray');
         REV[date['month']][date['day']][key]['sheet'] = parseInt($sheet.val());
         $('#revinfo input').removeAttr('disabled');
         $('#revform input, select').removeAttr('disabled');
@@ -494,7 +498,7 @@ function setRevinfo(date, $revinfo) {
     .append($('<th>').html('予約者名'))
     .append($('<th>').html('予約席数'))
     .append($('<th>').html('登録日'))
-    .append($('<th>').html('登録・削除'));
+    .append($('<th>').html('編集・削除'));
   $revinfo.append($th);
   if(REV[date['month']][date['day']] !== null) {
     var revList = REV[date['month']][date['day']];
@@ -504,8 +508,10 @@ function setRevinfo(date, $revinfo) {
       name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
       name += revList[i]['name'];
       $reviseForm = $('<div>').addClass('reviseForm').attr('key', i);
+      var $pass = $('<input>').css('width', '100px');
+      setWatermarkPassword($pass, 'パスワード');
       $reviseForm
-        .append($('<input>').attr('type', 'password'))
+        .append($pass)
         .append($('<input>').attr('type', 'button').val('編集'))
         .append($('<input>').attr('type', 'button').val('削除'));
       $tr
@@ -1305,4 +1311,31 @@ function setRevList() {
     }
   }
 
+}
+
+
+function setWatermarkPassword($textbox, msg) {
+  $textbox
+    .addClass('watermark')
+    .val(msg)
+    .attr('msg', msg)
+    .focus(function() {
+      $(this).removeClass('watermark');
+      if($(this).val() === msg) {
+        $(this).val('');
+      }
+      $(this).attr('type', 'password');
+    })
+    .blur(function() {
+      if($(this).val() === '') {
+        $(this).val(msg);
+        $(this).addClass('watermark');
+        $(this).attr('type', 'text');
+      }
+    })
+    .submit(function() {
+      if($(this).val() === msg) {
+        $(this).val('');
+      }
+    });
 }
