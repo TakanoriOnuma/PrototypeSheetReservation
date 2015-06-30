@@ -1130,7 +1130,14 @@ function setRegGameinfo2() {
           name += REV[month][day][i].name;
           $('#notice-rev-info ol').append($('<li>').html(name));
         }
-        $('#notice-rev-info').show();
+        var pos = $(this).parent().prev().prev().position();
+        var height = $(this).parent().prev().prev().outerHeight();
+        $('#notice-rev-info')
+          .css({
+            top : pos.top + height,
+            left : pos.left
+          })
+          .show();
       }
     }
     else if($(this).val() === '保存') {
