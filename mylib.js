@@ -625,7 +625,7 @@ function initGameinfo() {
     $opp.append($('<option>').html(OPPS[i]));
   }
 
-  $(window).on('resize', function() {
+  $(window).on('load resize', function() {
     var pos = $('#state').position();
     $('#notice-rev-info').css({
       'top' : pos.top + 80,
@@ -707,6 +707,121 @@ function initGameinfo() {
     .on('change', '#monthfilter, #oppfilter, #hourfilter', function() {
       setRegGameinfo();
     });
+}
+
+function initGameinfo2() {
+  var $opp = $('#opp');
+  for(var i = 0; i < OPPS.length; i++) {
+    $opp.append($('<option>').html(OPPS[i]));
+  }
+
+  $(window).on('load resize', function() {
+    var pos = $('#state').position();
+    $('#notice-rev-info').css({
+      'top' : pos.top + 80,
+      'left' : pos.left + 300
+    });
+  });
+
+  setRegGameinfo2();
+
+  $('#gameinfo').submit(function() {
+    var month = parseInt($('#month').val());
+    var day = parseInt($('#day').val());
+    var opp = $('#opp').val();
+    var hour = parseInt($('#hour').val());
+    var minute = parseInt($('#minute').val());
+    if(isNaN(month) || month < 1 || month > 12) {
+      alert('月の入力エラー');
+      return false;
+    }
+    if(isNaN(day) || day < 1 || day > 31) {
+      alert('日の入力エラー');
+      return false;
+    }
+    if(isNaN(hour) || hour < 0 || hour > 24) {
+      alert('時の入力エラー');
+      return false;
+    }
+    if(isNaN(minute) || minute < 0 || minute > 60) {
+      alert('分の入力エラー');
+      return false;
+    }
+
+    if($('#gameinfo input[type="submit"]').val() === '登録') {
+      GAME[month - 1][day].push({
+        'opp' : opp,
+        'start' : ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)
+      });
+    }
+    else if($('#gameinfo input[type="submit"]').val() === '編集') {
+      GAME[month - 1][day].push({
+        'opp' : opp,
+        'start' : ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2)
+      });
+
+      var row = $('#state').attr('revise');
+      var $button = $('#' + row + ' input');
+
+      var oldMonth = $button.attr('month');
+      var oldDay = $button.attr('day');
+      var oldIdx = $button.attr('idx');
+      GAME[oldMonth][oldDay].splice(oldIdx, 1);
+
+      location.hash = '';
+      location.hash = row;
+    }
+    setRegGameinfo();
+
+    return false;
+  });
+  $('#cancel').click(function() {
+    location.hash = '';
+    location.hash = $('#state').attr('revise');
+    setRegGameinfo();
+  });
+  $('#delete').click(function() {
+    if(confirm('削除してもよろしいですか？')) {
+      var row = $('#state').attr('revise');
+      var $button = $('#' + row + ' input');
+
+      var oldMonth = $button.attr('month');
+      var oldDay = $button.attr('day');
+      var oldIdx = $button.attr('idx');
+      GAME[oldMonth][oldDay].splice(oldIdx, 1);
+      setRegGameinfo();
+    }
+  })
+
+  $(document)
+    .on('change', '#monthfilter, #oppfilter, #hourfilter', function() {
+      setRegGameinfo();
+    });
+
+  // 削除ボタンの処理
+  $(document)
+    .on('mouseover', 'img', function() {
+      $(this).attr('src', 'batsu_on.png');
+    })
+    .on('mouseleave', 'img', function() {
+      $(this).attr('src', 'batsu.png');
+    })
+    .on('click', 'img', function() {
+      if($(this).attr('src') === 'batsu_on.png') {
+        var row = $(this).attr('row');
+        var month = parseInt($(this).attr('month'));
+        var day = parseInt($(this).attr('day'));
+        var idx = parseInt($(this).attr('idx'));
+        var str = '以下の内容を削除してもよろしいですか？\n';
+        str += '日付：' + (month + 1) + '月' + day + '日\n';
+        str += '対戦相手：' + GAME[month][day][idx].opp + '\n';
+        str += '開始時間：' + GAME[month][day][idx].start;
+        if(confirm(str)) {
+          GAME[month][day].splice(idx, 1);
+          setRegGameinfo2();
+        }
+      }
+    })
 }
 
 // 登録済み試合情報を列挙する
@@ -848,6 +963,186 @@ function setRegGameinfo() {
 
     location.hash = '';
     location.hash = 'state';
+  })
+}
+
+// 基本的に変更点は削除の列が出来たところのみ
+function setRegGameinfo2() {
+  // フィルター情報を取得
+  var monthfilter = ($('#monthfilter').val() === undefined) ? '日付' : $('#monthfilter').val();
+  var oppfilter = ($('#oppfilter').val() === undefined) ? '対戦相手' : $('#oppfilter').val();
+  var hourfilter = ($('#hourfilter').val() === undefined) ? '開始時間' : $('#hourfilter').val();
+
+  $('#cancel').hide();
+  $('#delete').hide();
+  $('#notice-rev-info').hide();
+  $('#state').html('試合情報の登録');
+  $('#gameinfo-submit').val('登録');
+
+  var $game = $('#reg-game');
+  $game.children().remove();
+  var $th = $('<tr>').addClass('lightgray');
+  var $monthfilter = $('<select id="monthfilter">');
+  $monthfilter
+    .append($('<option>').html('日付'));
+  for(var i = 1; i <= 12; i++) {
+    $monthfilter.append($('<option>').html(i + '月'));
+  }
+  var $oppfilter = $('<select id="oppfilter">').append($('<option>').html('対戦相手'));
+  for(var i = 0; i < OPPS.length; i++) {
+    $oppfilter.append($('<option>').html(OPPS[i]));
+  }
+  var $hourfilter = $('<select id="hourfilter">').append($('<option>').html('開始時間'));
+  $hourfilter
+    .append($('<option>').html('～18:00'))
+    .append($('<option>').html('18:00～'));
+
+  $monthfilter.val(monthfilter);
+  $oppfilter.val(oppfilter);
+  $hourfilter.val(hourfilter);
+  $th
+    .append($('<th>').append($monthfilter))
+    .append($('<th>').append($oppfilter))
+    .append($('<th>').append($hourfilter))
+    .append($('<th>').html('予約状況'))
+    .append($('<th>').html('編集'))
+    .append($('<th>').html('削除'));
+  $game.append($th);
+  var idx = 0;
+  for(var i = 0; i < GAME.length; i++) {
+    if(monthfilter !== undefined && monthfilter !== '日付') {
+      var monthfil = parseInt(monthfilter.slice(0, -1)) - 1;
+      if(monthfil !== i) {
+        continue;
+      }
+    }
+    for(var j = 1; j <= 31; j++) {
+      for(var k = 0; k < GAME[i][j].length; k++) {
+        if(oppfilter !== undefined && oppfilter !== '対戦相手') {
+          if(oppfilter !== GAME[i][j][k].opp) {
+            continue;
+          }
+        }
+        if(hourfilter !== undefined && hourfilter !== '開始時間') {
+          if(hourfilter.charAt(0) === '～') {
+            var hourfil = parseInt(hourfilter.slice(1, 3));
+            if(hourfil <= parseInt(GAME[i][j][k].start.slice(0, 2))) {
+              continue;
+            }
+          }
+          else {
+            var hourfil = parseInt(hourfilter.slice(0, 2));
+            if(hourfil > parseInt(GAME[i][j][k].start.slice(0, 2))) {
+              continue;
+            }
+          }
+        }
+
+
+        var $tr = $('<tr id="row' + idx + '">').addClass('center');
+        var num = calcSheetNum({'year': 2015, 'month': i, 'day': j});
+        var $button = $('<input>');
+        $button
+          .attr('type', 'button')
+          .attr('row', 'row' + idx)
+          .attr('month', i)
+          .attr('day', j)
+          .attr('idx', k)
+          .val('編集');
+        var $batsu = $('<img>');
+        $batsu
+          .attr('src', 'batsu.png')
+          .attr('row', 'row' + idx)
+          .attr('month', i)
+          .attr('day', j)
+          .attr('idx', k);
+        $tr
+          .append($('<td>').html((i + 1) + '月 ' + j + '日'))
+          .append($('<td>').html(GAME[i][j][k].opp))
+          .append($('<td>').html(GAME[i][j][k].start))
+          .append($('<td>').html(num + ' / ' + SHEET))
+          .append($('<td>').html($button))
+          .append($('<td>').html($batsu));
+
+        $game.append($tr);
+        idx += 1;
+      }
+    }
+  }
+
+  $('#reg-game input').click(function() {
+    var row = $(this).attr('row');
+    var month = parseInt($(this).attr('month'));
+    var day = $(this).attr('day');
+    var idx = $(this).attr('idx');
+    if($(this).val() === '編集') {
+      $('#gameinfo input, select').attr('disabled', 'disabled');
+      $(this).val('保存');
+      $('#reg-game tr').each(function(idx, elem) {
+        if($(this).attr('id') === row) {
+          $(this).addClass('selected');
+        }
+        else {
+          $(this).removeClass('selected');
+          $(this).addClass('gray');
+          $('input', this).attr('disabled', 'disabled');
+        }
+      });
+      // 日付のフォーム
+      var $day = $(this).parent().prev().prev().prev().prev();
+      var $dayForm = $('<td>');
+      $dayForm
+        .append($('<input>').attr('type', 'text').val(month + 1).addClass('sizefix'))
+        .append($('<span>').html('月'))
+        .append($('<input>').attr('type', 'text').val(day).addClass('sizefix'))
+        .append($('<span>').html('日'));
+      $day.replaceWith($dayForm);
+
+      // 対戦相手のフォーム
+      var $oppForm = $('<select>');
+      for(var i = 0; i < OPPS.length; i++) {
+        $oppForm.append($('<option>').html(OPPS[i]));
+      }
+      $oppForm.val(GAME[month][day][idx].opp);
+      var $opp = $(this).parent().prev().prev().prev();
+      $opp.replaceWith($('<td>').append($oppForm));
+
+      // 開始時間のフォーム
+      var $startForm = $('<td>');
+      var startTime = GAME[month][day][idx].start;
+      $startForm
+        .append($('<input>').attr('type', 'input').val(startTime.substr(0, 2)).addClass('sizefix'))
+        .append($('<span>').html('：'))
+        .append($('<input>').attr('type', 'input').val(startTime.substr(startTime.length - 2, 2)).addClass('sizefix'));
+
+      var $start = $(this).parent().prev().prev();
+      $start.replaceWith($startForm);
+    }
+    else if($(this).val() === '保存') {
+      $('input, select').removeAttr('disabled');
+      $(this).val('編集');
+    }
+
+
+    $('#month').val(month + 1);
+    $('#day').val(day);
+    $('#opp').val(GAME[month][day][idx].opp);
+    $('#hour').val(GAME[month][day][idx].start.slice(0, 2));
+    $('#minute').val(GAME[month][day][idx].start.slice(-2));
+
+    // 予約者一覧の表示
+    $('#notice-rev-info').hide();
+    $('#notice-rev-info ol').children().remove();
+    if(REV[month][day] !== null) {
+      for(var i = 0; i < REV[month][day].length; i++) {
+        var name = '';
+        name += (REV[month][day][i].depart === '') ? '' : REV[month][day][i].depart + ' ';
+        name += (REV[month][day][i].pos === '') ? '' : REV[month][day][i].pos + ' ';
+        name += REV[month][day][i].name;
+        $('#notice-rev-info ol').append($('<li>').html(name));
+      }
+      $('#notice-rev-info').show();
+    }
   })
 }
 

@@ -336,4 +336,7 @@ table#revinfo {
   height: 20px;
 }
 
+.sizefix {
+  width: 20px;
+}
 /* admin部分終了 */
