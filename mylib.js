@@ -801,10 +801,14 @@ function initGameinfo2() {
   // 削除ボタンの処理
   $(document)
     .on('mouseover', 'img', function() {
-      $(this).attr('src', 'batsu_on.png');
+      if($(this).attr('src') === 'batsu.png') {
+        $(this).attr('src', 'batsu_on.png');
+      }
     })
     .on('mouseleave', 'img', function() {
-      $(this).attr('src', 'batsu.png');
+      if($(this).attr('src') === 'batsu_on.png') {
+        $(this).attr('src', 'batsu.png');
+      }
     })
     .on('click', 'img', function() {
       if($(this).attr('src') === 'batsu_on.png') {
@@ -1085,11 +1089,13 @@ function setRegGameinfo2() {
       $('#reg-game tr').each(function(idx, elem) {
         if($(this).attr('id') === row) {
           $(this).addClass('selected');
+          $('img', this).attr('src', 'batsu_gray.png');
         }
         else {
           $(this).removeClass('selected');
           $(this).addClass('gray');
           $('input', this).attr('disabled', 'disabled');
+          $('img', this).attr('src', 'batsu_gray.png');
         }
       });
       // 日付のフォーム
@@ -1167,7 +1173,7 @@ function setRegGameinfo2() {
         GAME[month][day].splice(idx, 1);
         GAME[_month][_day].push({
           opp : _opp,
-          start : _hour + '：' + _minute
+          start : _hour + ':' + _minute
         });
       }
       else {
