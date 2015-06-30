@@ -340,6 +340,7 @@ function gameInitial() {
     if(REV[date['month']][date['day']][key]['password'] === password) {
       if($(this).val() === '編集') {
         $('#revinfo input').attr('disabled', 'disabled');
+        $('#revform input, select').attr('disabled', 'disabled');
         $(this)
           .removeAttr('disabled')
           .val('保存');
@@ -376,6 +377,7 @@ function gameInitial() {
         $sheet.parent().parent().removeClass('selected');
         REV[date['month']][date['day']][key]['sheet'] = parseInt($sheet.val());
         $('#revinfo input').removeAttr('disabled');
+        $('#revform input, select').removeAttr('disabled');
         $sheet.replaceWith($('<span>').html(REV[date['month']][date['day']][key]['sheet']).addClass('sheet'));
         $(this).val('編集');
         setSheetNum(date);

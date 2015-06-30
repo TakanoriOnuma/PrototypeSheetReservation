@@ -53,24 +53,37 @@ $(function() {
   <form id="revform">
     <table>
       <tr>
+        <td><div class="attention">必須</div></td>
         <td><label for="name">名前：</label></td>
-        <td><input type="text" name="name" id="name"> <span class="attention">※必ず記入してください</span></td>
+        <td><input type="text" name="name" id="name"></td>
+        <td><span class="notice">※全角10文字・半角？文字まで</span></td>
       </tr>
       <tr>
+        <td></td>
         <td><label for="depart">部署：</label></td>
         <td><input type="text" name="depart" id="depart"></td>
+        <td><span class="notice">※全角10文字・半角？文字まで</span></td>
       </tr>
       <tr>
+        <td></td>
         <td><label for="pos">役職：</label></td>
         <td><input type="text" name="pos" id="pos"></td>
+        <td><span class="notice">※全角20文字・半角？文字まで</span></td>
       </tr>
       <tr>
+        <td><div class="attention">必須</div></td>
         <td><label for="sheet">席数：</label></td>
-        <td><select name="sheet" id="sheet"></select> 席 <span class="attention">※必ず記入してください</span></td>
+        <td><select name="sheet" id="sheet"></select> 席</td>
       </tr>
       <tr>
+        <td><div class="attention">必須</div></td>
         <td><label for="password">パスワード：</label></td>
         <td><input type="password" id="password"></td>
+        <td><span class="notice">※半角英数字4～16文字まで</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3"><div class="notice2">※パスワードは予約の変更・キャンセルの際に必要になります。</div></td>
       </tr>
       <tr>
         <td colspan="2"><input type="submit" id="revbut" value="登録"></td>
