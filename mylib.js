@@ -771,31 +771,14 @@ function initGameinfo2() {
       location.hash = '';
       location.hash = row;
     }
-    setRegGameinfo();
+    setRegGameinfo2();
 
     return false;
   });
-  $('#cancel').click(function() {
-    location.hash = '';
-    location.hash = $('#state').attr('revise');
-    setRegGameinfo();
-  });
-  $('#delete').click(function() {
-    if(confirm('削除してもよろしいですか？')) {
-      var row = $('#state').attr('revise');
-      var $button = $('#' + row + ' input');
-
-      var oldMonth = $button.attr('month');
-      var oldDay = $button.attr('day');
-      var oldIdx = $button.attr('idx');
-      GAME[oldMonth][oldDay].splice(oldIdx, 1);
-      setRegGameinfo();
-    }
-  })
 
   $(document)
     .on('change', '#monthfilter, #oppfilter, #hourfilter', function() {
-      setRegGameinfo();
+      setRegGameinfo2();
     });
 
   // 削除ボタンの処理
