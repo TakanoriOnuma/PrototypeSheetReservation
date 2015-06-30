@@ -1070,6 +1070,10 @@ function setRegGameinfo2() {
     }
   }
 
+  // 予約者一覧の削除
+  $('#notice-rev-info').hide();
+  $('#notice-rev-info ol').children().remove();
+
   $('#reg-game input').click(function() {
     var row = $(this).attr('row');
     var month = parseInt($(this).attr('month'));
@@ -1114,35 +1118,59 @@ function setRegGameinfo2() {
         .append($('<input>').attr('type', 'input').val(startTime.substr(0, 2)).addClass('sizefix'))
         .append($('<span>').html('：'))
         .append($('<input>').attr('type', 'input').val(startTime.substr(startTime.length - 2, 2)).addClass('sizefix'));
-
       var $start = $(this).parent().prev().prev();
       $start.replaceWith($startForm);
+
+      // 予約者一覧の表示
+      if(REV[month][day] !== null) {
+        for(var i = 0; i < REV[month][day].length; i++) {
+          var name = '';
+          name += (REV[month][day][i].depart === '') ? '' : REV[month][day][i].depart + ' ';
+          name += (REV[month][day][i].pos === '') ? '' : REV[month][day][i].pos + ' ';
+          name += REV[month][day][i].name;
+          $('#notice-rev-info ol').append($('<li>').html(name));
+        }
+        $('#notice-rev-info').show();
+      }
     }
     else if($(this).val() === '保存') {
       $('input, select').removeAttr('disabled');
       $(this).val('編集');
-    }
 
+      // 情報の保存
+      // 日付のフォーム
+      var $_dayForm = $(this).parent().prev().prev().prev().prev();
+      var $_month = $('input', $_dayForm);
+      var _month = parseInt($_month.val());
+      var $_day = $_month.next().next();
+      var _day = parseInt($_day.val());
 
-    $('#month').val(month + 1);
-    $('#day').val(day);
-    $('#opp').val(GAME[month][day][idx].opp);
-    $('#hour').val(GAME[month][day][idx].start.slice(0, 2));
-    $('#minute').val(GAME[month][day][idx].start.slice(-2));
+      // 対戦相手のフォーム
+      var $_oppForm = $(this).parent().prev().prev().prev();
+      var _opp = $('select', $_oppForm).val();
 
-    // 予約者一覧の表示
-    $('#notice-rev-info').hide();
-    $('#notice-rev-info ol').children().remove();
-    if(REV[month][day] !== null) {
-      for(var i = 0; i < REV[month][day].length; i++) {
-        var name = '';
-        name += (REV[month][day][i].depart === '') ? '' : REV[month][day][i].depart + ' ';
-        name += (REV[month][day][i].pos === '') ? '' : REV[month][day][i].pos + ' ';
-        name += REV[month][day][i].name;
-        $('#notice-rev-info ol').append($('<li>').html(name));
+      // 開始時間のフォーム
+      var $_startForm = $(this).parent().prev().prev();
+      var $_hour = $('input', $_startForm);
+      var _hour = $_hour.val();
+      var _minute = $_hour.next().next().val();
+
+      _month = _month - 1;
+      if(month !== _month || day !== _day) {
+        GAME[month][day].splice(idx, 1);
+        GAME[_month][_day].push({
+          opp : _opp,
+          start : _hour + '：' + _minute
+        });
       }
-      $('#notice-rev-info').show();
+      else {
+        GAME[month][day][idx].opp = _opp;
+        GAME[month][day][idx].start = _hour + '：' + _minute;
+      }
+
+      setRegGameinfo2();
     }
+
   })
 }
 
