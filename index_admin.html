@@ -12,11 +12,11 @@ $(function() {
   var month = today.getMonth();
   makeCalendar(year, month, $('#calendar'));
   var $calbar = $('<tr>');
-  $calbar.append($('<td>').append($('<div>').append($('<a href="" move="prev">').append($('<img src="arrow_left.png" height="30">')))));
+  $calbar.append($('<td>').append($('<div>').attr('move', 'prev').append($('<img src="arrow_left.png" height="30">'))));
   for(var i = 0; i < 12; i++) {
     $calbar.append($('<td>').append($('<div month="' + i + '">').addClass('month').html((i + 1) + '月')));
   }
-  $calbar.append($('<td>').append($('<div>').html($('<a href="" move="next">').append($('<img src="arrow_right.png" height="30">')))));
+  $calbar.append($('<td>').append($('<div>').attr('move', 'next').html($('<img src="arrow_right.png" height="30">'))));
   $('#calbar').append($('<table>').append($calbar));
 
   $('#calmonth').html(year + '年' + (month + 1) + '月');
@@ -47,7 +47,7 @@ $(function() {
   $('#calbar div[month="' + month + '"]')
     .removeClass('month')
     .addClass('focus');
-  $('#calbar a[move="prev"]').click(function() {
+  $('#calbar div[move="prev"]').click(function() {
     $('#calbar div[month="' + month + '"]')
       .addClass('month')
       .removeClass('focus');
@@ -63,7 +63,7 @@ $(function() {
     $('#calmonth').html(year + '年' + (month + 1) + '月');
     return false;
   });
-  $('#calbar a[move="next"]').click(function() {
+  $('#calbar div[move="next"]').click(function() {
     $('#calbar div[month="' + month + '"]')
       .addClass('month')
       .removeClass('focus');
@@ -144,7 +144,7 @@ $(function() {
   <table>
     <tr>
       <td><h1><span id="calmonth"></span> <span>カレンダー</span></h1></td>
-      <td class="right"><a href="rev-list.html" id="img-rev-list"><img src="rev_list.png" height="41" width="170" alt="" /></a></td>
+      <td class="right"></td>
     </tr>
   </table>
   <div id="calbar"></div>
