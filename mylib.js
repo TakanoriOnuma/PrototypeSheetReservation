@@ -468,6 +468,62 @@ function gameInitial_admin() {
         setRevNum(date);
       }
     });
+
+  $(document).on('click', '.reviseForm input[type="button"]', function() {
+    // password check
+    var $reviseForm = $(this).parent();
+    var key = $reviseForm.attr('key');
+    if($(this).val() === '編集') {
+      $('#revinfo input').attr('disabled', 'disabled');
+      $('#revform input, select').attr('disabled', 'disabled');
+      $('#revinfo tr').addClass('gray');
+      $('#revinfo tr th').parent().removeClass('gray');
+      $(this).parent().parent().parent().removeClass('gray');
+      $(this)
+        .removeAttr('disabled')
+        .val('保存');
+      var $sheet = $('.sheet', $('#revinfo div[key="' + key + '"]').parent().parent());
+      $sheet.parent().parent().addClass('selected');
+      var sheet = $sheet.html();
+      var $sheetList = $('<select>');
+      for(var i = 0; i < SHEET; i++) {
+        $sheetList.append($('<option value="' + (i + 1) + '">').html(i + 1));
+      }
+      $sheetList
+        .val(sheet)
+        .addClass('sheet');
+      $sheet.replaceWith($sheetList);
+    }
+    else if($(this).val() === '削除') {
+      var str = '以下の情報を削除してもよろしいですか？\n';
+      var rev = REV[date['month']][date['day']][key];
+      var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
+      name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
+      name += rev['name'];
+      str += '予約者名：' + name + '\n';
+      str += '予約席数：' + rev['sheet'] + '席\n';
+      str += '登録日：' + rev['date'] + '\n';
+      if(confirm(str)) {
+        REV[date['month']][date['day']].splice(key, 1);
+        setRevinfo_admin(date, $('#revinfo'));
+        setSheetNum(date);
+        setRevNum(date);
+      }
+    }
+    else if($(this).val() === '保存') {
+      var $sheet = $('.sheet', $('#revinfo div[key="' + key + '"]').parent().parent());
+      $sheet.parent().parent().removeClass('selected');
+      $('#revinfo tr').removeClass('gray');
+      REV[date['month']][date['day']][key]['sheet'] = parseInt($sheet.val());
+      $('#revinfo input').removeAttr('disabled');
+      $('#revform input, select').removeAttr('disabled');
+      $sheet.replaceWith($('<span>').html(REV[date['month']][date['day']][key]['sheet']).addClass('sheet'));
+      $(this).val('編集');
+      setSheetNum(date);
+    }
+  });
+
+
 }
 
 
@@ -551,23 +607,44 @@ function setRevinfo_admin(date, $revinfo) {
     .append($('<th>').html('予約者名'))
     .append($('<th>').html('予約席数'))
     .append($('<th>').html('登録日'))
-    .append($('<th>').html('キャンセル'));
+    .append($('<th>').html('編集・削除'));
   $revinfo.append($th);
   if(REV[date['month']][date['day']] !== null) {
     var revList = REV[date['month']][date['day']];
     for(var i = 0; i < revList.length; i++) {
-      var $tr = $('<tr>').attr('number', i);
+      var $tr = $('<tr>');
       var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
       name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
       name += revList[i]['name'];
+      $reviseForm = $('<div>').addClass('reviseForm').attr('key', i);
+      $reviseForm
+        .append($('<input>').attr('type', 'button').val('編集'))
+        .append($('<input>').attr('type', 'button').val('削除'));
+
+      var $name = $('<td>').html(name);
+      if(name.length < 10) {
+        $name.css('font-size', '16px')
+      }
+      else if(name.length < 20) {
+        $name.css('font-size', '15px');
+      }
+      else if(name.length < 30) {
+        $name.css('font-size', '10px');
+      }
+      else {
+        $name.css('font-size', '9px');
+      }
       $tr
-        .append($('<td>').html(name))
-        .append($('<td>').html(revList[i]['sheet'] + '席'))
+        .append($name)
+        .append($('<td>')
+          .append($('<span>').html(revList[i]['sheet']).addClass('sheet'))
+          .append($('<span>').html('席')))
         .append($('<td>').html(revList[i]['date']))
-        .append($('<td>').append($('<img>').attr('src', 'batsu.png').attr('number', i)));
+        .append($('<td>').append($reviseForm));
       $revinfo.append($tr);
     }
   }
+
 }
 
 
