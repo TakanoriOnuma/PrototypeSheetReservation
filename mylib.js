@@ -514,8 +514,22 @@ function setRevinfo(date, $revinfo) {
         .append($pass)
         .append($('<input>').attr('type', 'button').val('編集'))
         .append($('<input>').attr('type', 'button').val('削除'));
+
+      var $name = $('<td>').html(name);
+      if(name.length < 10) {
+        $name.css('font-size', '16px')
+      }
+      else if(name.length < 20) {
+        $name.css('font-size', '15px');
+      }
+      else if(name.length < 30) {
+        $name.css('font-size', '10px');
+      }
+      else {
+        $name.css('font-size', '9px');
+      }
       $tr
-        .append($('<td>').html(name))
+        .append($name)
         .append($('<td>')
           .append($('<span>').html(revList[i]['sheet']).addClass('sheet'))
           .append($('<span>').html('席')))
@@ -1316,11 +1330,12 @@ function setRevList() {
 
 function setWatermarkPassword($textbox, msg) {
   $textbox
-    .addClass('watermark')
-    .val(msg)
+    .css('background-image', 'url("password.png")')
+    .css('background-repeat', 'no-repeat')
     .attr('msg', msg)
+    .attr('type', 'password')
     .focus(function() {
-      $(this).removeClass('watermark');
+      $(this).css('background-image', '');
       if($(this).val() === msg) {
         $(this).val('');
       }
@@ -1328,9 +1343,7 @@ function setWatermarkPassword($textbox, msg) {
     })
     .blur(function() {
       if($(this).val() === '') {
-        $(this).val(msg);
-        $(this).addClass('watermark');
-        $(this).attr('type', 'text');
+        $(this).css('background-image', 'url("password.png")')
       }
     })
     .submit(function() {
