@@ -164,6 +164,10 @@ div.focus {
   vertical-align: top;
 }
 
+.today {
+  border: solid 2px deepskyblue !important;
+}
+
 .day {
   font-weight: bold;
 }

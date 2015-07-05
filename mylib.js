@@ -237,16 +237,28 @@ function makeCalendar(year, month, $output) {
     $week.append($th);
   }
   $table.append($week);
+  var isToday = function(year, month, day) {
+    var today = new Date();
+    return (year === today.getFullYear() &&
+      month === today.getMonth() &&
+      day === today.getDate());
+  };
   for(var i = 0; i < 5; i++) {
     var $week = $('<tr>');
     for(var j = 0; j < 7; j++) {
       if(date[i * 7 + j] === ' ' || GAME[month][date[i * 7 + j]].length === 0) {
         var $noGame = $('<td>').addClass('nogame');
+        if(isToday(year, month, date[i * 7 + j])) {
+          $noGame.addClass('today');
+        }
         $noGame.append(($('<span>').addClass('day').html(date[i * 7 + j])));
         $week.append($noGame);
       }
       else {
         var $oneGame = $('<td>').addClass('game');
+        if(isToday(year, month, date[i * 7 + j])) {
+          $oneGame.addClass('today');
+        }
         var $info = $('<div>').addClass('center');
         $info
           .append(ABBR[GAME[month][date[i * 7 + j]][0].opp])
