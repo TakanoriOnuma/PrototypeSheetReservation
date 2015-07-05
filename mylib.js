@@ -385,14 +385,15 @@ function gameInitial() {
         $sheet.replaceWith($sheetList);
       }
       else if($(this).val() === '削除') {
-        var str = '以下の情報を削除してもよろしいですか？\n';
+        var str = '予約情報\n';
         var rev = REV[date['month']][date['day']][key];
         var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
         name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
         name += rev['name'];
         str += '予約者名：' + name + '\n';
         str += '予約席数：' + rev['sheet'] + '席\n';
-        str += '登録日：' + rev['date'] + '\n';
+        str += '登録日：' + rev['date'] + '\n\n';
+        str += 'この予約を本当に削除しますか？';
         if(confirm(str)) {
           REV[date['month']][date['day']].splice(key, 1);
           setRevinfo(date, $('#revinfo'));
@@ -478,7 +479,7 @@ function gameInitial_admin() {
     })
     .on('click', '#revinfo img', function() {
       var number = $(this).attr('number');
-      var str = '以下の情報を削除してもよろしいですか？\n';
+      var str = '以下の情報を削除しますか？\n';
       var rev = REV[date['month']][date['day']][number];
       var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
       name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
@@ -520,14 +521,15 @@ function gameInitial_admin() {
       $sheet.replaceWith($sheetList);
     }
     else if($(this).val() === '削除') {
-      var str = '以下の情報を削除してもよろしいですか？\n';
+      var str = '予約情報\n';
       var rev = REV[date['month']][date['day']][key];
       var name = (rev['depart'] === '') ? '' : rev['depart'] + ' ';
       name += (rev['pos'] === '') ? '' : rev['pos'] + ' ';
       name += rev['name'];
       str += '予約者名：' + name + '\n';
       str += '予約席数：' + rev['sheet'] + '席\n';
-      str += '登録日：' + rev['date'] + '\n';
+      str += '登録日：' + rev['date'] + '\n\n';
+      str += 'この予約を本当に削除してもよろしいですか？';
       if(confirm(str)) {
         REV[date['month']][date['day']].splice(key, 1);
         setRevinfo_admin(date, $('#revinfo'));
@@ -1174,9 +1176,9 @@ function setRegGameinfo2() {
       var $day = $(this).parent().prev().prev().prev().prev();
       var $dayForm = $('<td>');
       $dayForm
-        .append($('<input>').attr('type', 'text').val(month + 1).addClass('sizefix'))
+        .append($('<input>').attr('type', 'text').val(month + 1).addClass('sizefix').addClass('right'))
         .append($('<span>').html('月'))
-        .append($('<input>').attr('type', 'text').val(day).addClass('sizefix'))
+        .append($('<input>').attr('type', 'text').val(day).addClass('sizefix').addClass('right'))
         .append($('<span>').html('日'));
       $day.replaceWith($dayForm);
 
@@ -1202,9 +1204,9 @@ function setRegGameinfo2() {
       var $startForm = $('<td>');
       var startTime = GAME[month][day][idx].start;
       $startForm
-        .append($('<input>').attr('type', 'input').val(startTime.substr(0, 2)).addClass('sizefix'))
+        .append($('<input>').attr('type', 'input').val(startTime.substr(0, 2)).addClass('sizefix').addClass('right'))
         .append($('<span>').html('：'))
-        .append($('<input>').attr('type', 'input').val(startTime.substr(startTime.length - 2, 2)).addClass('sizefix'));
+        .append($('<input>').attr('type', 'input').val(startTime.substr(startTime.length - 2, 2)).addClass('sizefix').addClass('right'));
       var $start = $(this).parent().prev().prev();
       $start.replaceWith($startForm);
 
@@ -1269,10 +1271,11 @@ function setRegGameinfo2() {
       var month = parseInt($(this).attr('month'));
       var day = parseInt($(this).attr('day'));
       var idx = parseInt($(this).attr('idx'));
-      var str = '以下の内容を削除してもよろしいですか？\n';
+      var str = '試合情報\n';
       str += '日付：' + (month + 1) + '月' + day + '日\n';
       str += '対戦相手：' + GAME[month][day][idx].opp + '\n';
-      str += '開始時間：' + GAME[month][day][idx].start;
+      str += '開始時間：' + GAME[month][day][idx].start + '\n\n';
+      str += 'この試合を本当に削除しますか？';
       if(confirm(str)) {
         GAME[month][day].splice(idx, 1);
         setRegGameinfo2();
