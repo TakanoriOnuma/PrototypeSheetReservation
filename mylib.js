@@ -882,35 +882,6 @@ function initGameinfo2() {
     .on('change', '#monthfilter, #oppfilter, #hourfilter', function() {
       setRegGameinfo2();
     });
-
-  // 削除ボタンの処理
-  $(document)
-    .on('mouseover', 'img', function() {
-      if($(this).attr('src') === 'batsu.png') {
-        $(this).attr('src', 'batsu_on.png');
-      }
-    })
-    .on('mouseleave', 'img', function() {
-      if($(this).attr('src') === 'batsu_on.png') {
-        $(this).attr('src', 'batsu.png');
-      }
-    })
-    .on('click', 'img', function() {
-      if($(this).attr('src') === 'batsu_on.png') {
-        var row = $(this).attr('row');
-        var month = parseInt($(this).attr('month'));
-        var day = parseInt($(this).attr('day'));
-        var idx = parseInt($(this).attr('idx'));
-        var str = '以下の内容を削除してもよろしいですか？\n';
-        str += '日付：' + (month + 1) + '月' + day + '日\n';
-        str += '対戦相手：' + GAME[month][day][idx].opp + '\n';
-        str += '開始時間：' + GAME[month][day][idx].start;
-        if(confirm(str)) {
-          GAME[month][day].splice(idx, 1);
-          setRegGameinfo2();
-        }
-      }
-    })
 }
 
 // 登録済み試合情報を列挙する
@@ -1094,8 +1065,7 @@ function setRegGameinfo2() {
     .append($('<th>').append($oppfilter))
     .append($('<th>').append($hourfilter))
     .append($('<th>').html('予約状況'))
-    .append($('<th>').html('編集'))
-    .append($('<th>').html('削除'));
+    .append($('<th>').html('編集・削除'));
   $game.append($th);
   var idx = 0;
   for(var i = 0; i < GAME.length; i++) {
@@ -1138,20 +1108,20 @@ function setRegGameinfo2() {
           .attr('day', j)
           .attr('idx', k)
           .val('編集');
-        var $batsu = $('<img>');
+        var $batsu = $('<input>');
         $batsu
-          .attr('src', 'batsu.png')
+          .attr('type', 'button')
           .attr('row', 'row' + idx)
           .attr('month', i)
           .attr('day', j)
-          .attr('idx', k);
+          .attr('idx', k)
+          .val('削除');
         $tr
           .append($('<td>').html((i + 1) + '月 ' + j + '日'))
           .append($('<td>').html(GAME[i][j][k].opp))
           .append($('<td>').html(GAME[i][j][k].start))
           .append($('<td>').html(num + ' / ' + SHEET))
-          .append($('<td>').html($button))
-          .append($('<td>').html($batsu));
+          .append($('<td>').append($button).append($batsu));
 
         $game.append($tr);
         idx += 1;
@@ -1174,13 +1144,12 @@ function setRegGameinfo2() {
       $('#reg-game tr').each(function(idx, elem) {
         if($(this).attr('id') === row) {
           $(this).addClass('selected');
-          $('img', this).attr('src', 'batsu_gray.png');
+          $('input', this).next().attr('disabled', 'disabled');
         }
         else {
           $(this).removeClass('selected');
           $(this).addClass('gray');
           $('input', this).attr('disabled', 'disabled');
-          $('img', this).attr('src', 'batsu_gray.png');
         }
       });
       // 日付のフォーム
@@ -1268,8 +1237,21 @@ function setRegGameinfo2() {
 
       setRegGameinfo2();
     }
-
-  })
+    else if($(this).val() === '削除') {
+      var row = $(this).attr('row');
+      var month = parseInt($(this).attr('month'));
+      var day = parseInt($(this).attr('day'));
+      var idx = parseInt($(this).attr('idx'));
+      var str = '以下の内容を削除してもよろしいですか？\n';
+      str += '日付：' + (month + 1) + '月' + day + '日\n';
+      str += '対戦相手：' + GAME[month][day][idx].opp + '\n';
+      str += '開始時間：' + GAME[month][day][idx].start;
+      if(confirm(str)) {
+        GAME[month][day].splice(idx, 1);
+        setRegGameinfo2();
+      }
+    }
+  });
 }
 
 function initRevList() {
