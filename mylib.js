@@ -585,8 +585,8 @@ function setRevinfo(date, $revinfo) {
     var revList = REV[date['month']][date['day']];
     for(var i = 0; i < revList.length; i++) {
       var $tr = $('<tr>');
-      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
-      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
+      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + '<br>';
+      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + '<br>';
       name += revList[i]['name'];
       $reviseForm = $('<div>').addClass('reviseForm').attr('key', i);
       var $pass = $('<input>').css('width', '100px');
@@ -597,18 +597,6 @@ function setRevinfo(date, $revinfo) {
         .append($('<input>').attr('type', 'button').val('削除'));
 
       var $name = $('<td>').html(name);
-      if(name.length < 10) {
-        $name.css('font-size', '16px')
-      }
-      else if(name.length < 20) {
-        $name.css('font-size', '15px');
-      }
-      else if(name.length < 30) {
-        $name.css('font-size', '10px');
-      }
-      else {
-        $name.css('font-size', '9px');
-      }
       $tr
         .append($name)
         .append($('<td>')
@@ -638,27 +626,15 @@ function setRevinfo_admin(date, $revinfo) {
     var revList = REV[date['month']][date['day']];
     for(var i = 0; i < revList.length; i++) {
       var $tr = $('<tr>');
-      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + ' ';
-      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + ' ';
+      var name = (revList[i]['depart'] === '') ? '' : revList[i]['depart'] + '<br>';
+      name += (revList[i]['pos'] === '') ? '' : revList[i]['pos'] + '<br>';
       name += revList[i]['name'];
       $reviseForm = $('<div>').addClass('reviseForm').attr('key', i);
       $reviseForm
         .append($('<input>').attr('type', 'button').val('編集'))
         .append($('<input>').attr('type', 'button').val('削除'));
 
-      var $name = $('<td>').html(name);
-      if(name.length < 10) {
-        $name.css('font-size', '16px')
-      }
-      else if(name.length < 20) {
-        $name.css('font-size', '15px');
-      }
-      else if(name.length < 30) {
-        $name.css('font-size', '10px');
-      }
-      else {
-        $name.css('font-size', '9px');
-      }
+      var $name = $('<td>').append(name);
       $tr
         .append($name)
         .append($('<td>')
@@ -712,9 +688,13 @@ function setRevNum(date) {
   var $revNum = $('<span>').html(revNum);
   if(revNum <= 0) {
     $revNum.addClass('danger');
+    $('#revform input, #revform select').attr('disabled', 'disabled');
+    $('#revform input[type="submit"]').val('これ以上登録できません');
   }
   else {
     $revNum.addClass('safe');
+    $('#revform input, #revform select').removeAttr('disabled', 'disabled');
+    $('#revform input[type="submit"]').val('登録');
   }
   $('.rev-info')
     .append('(あと ')
