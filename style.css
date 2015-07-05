@@ -339,6 +339,10 @@ table#revinfo {
   font-weight: normal;
 }
 
+optgroup:disabled {
+  background-color: white;
+}
+
 #rev-list input[type="checkbox"] {
   width: 20px;
   height: 20px;

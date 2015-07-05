@@ -813,9 +813,18 @@ function initGameinfo() {
 
 function initGameinfo2() {
   var $opp = $('#opp');
-  for(var i = 0; i < OPPS.length; i++) {
-    $opp.append($('<option>').html(OPPS[i]));
+  var $central = $('<optgroup label="セ・リーグ">');
+  var i = 0;
+  for( ; i < 5; i++) {
+    $central.append($('<option>').html(OPPS[i]));
   }
+  var $pacific = $('<optgroup label="パ・リーグ">');
+  for( ; i < OPPS.length; i++) {
+    $pacific.append($('<option>').html(OPPS[i]));
+  }
+  $opp
+    .append($central)
+    .append($pacific);
 
   $(window).on('load resize', function() {
     var pos = $('#state').position();
@@ -1049,9 +1058,18 @@ function setRegGameinfo2() {
     $monthfilter.append($('<option>').html(i + '月'));
   }
   var $oppfilter = $('<select id="oppfilter">').append($('<option>').html('対戦相手'));
-  for(var i = 0; i < OPPS.length; i++) {
-    $oppfilter.append($('<option>').html(OPPS[i]));
+  var $central = $('<optgroup label="セ・リーグ">');
+  i = 0;
+  for( ; i < 5; i++) {
+    $central.append($('<option>').html(OPPS[i]));
   }
+  var $pacific = $('<optgroup label="パ・リーグ">');
+  for( ; i < OPPS.length; i++) {
+    $pacific.append($('<option>').html(OPPS[i]));
+  }
+  $oppfilter
+    .append($central)
+    .append($pacific);
   var $hourfilter = $('<select id="hourfilter">').append($('<option>').html('開始時間'));
   $hourfilter
     .append($('<option>').html('～18:00'))
@@ -1164,10 +1182,19 @@ function setRegGameinfo2() {
 
       // 対戦相手のフォーム
       var $oppForm = $('<select>');
-      for(var i = 0; i < OPPS.length; i++) {
-        $oppForm.append($('<option>').html(OPPS[i]));
+      var $central = $('<optgroup label="セ・リーグ">');
+      var i = 0;
+      for( ; i < 5; i++) {
+        $central.append($('<option>').html(OPPS[i]));
       }
-      $oppForm.val(GAME[month][day][idx].opp);
+      var $pacific = $('<optgroup label="パ・リーグ">');
+      for( ; i < OPPS.length; i++) {
+        $pacific.append($('<option>').html(OPPS[i]));
+      }
+      $oppForm
+        .append($central)
+        .append($pacific)
+        .val(GAME[month][day][idx].opp);
       var $opp = $(this).parent().prev().prev().prev();
       $opp.replaceWith($('<td>').append($oppForm));
 
