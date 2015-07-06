@@ -1249,7 +1249,6 @@ function setRegGameinfo2() {
         var height = $(this).parent().prev().prev().outerHeight();
         var revHeight = $('#notice-rev-info').outerHeight();
         var documentHeight = $('body').outerHeight();
-        alert(documentHeight + ', ' + (pos.top + height) + ', ' + revHeight);
         if(pos.top + height + revHeight > documentHeight - 30) {
           $('#notice-rev-info')
             .css({
