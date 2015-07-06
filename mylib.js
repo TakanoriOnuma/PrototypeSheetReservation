@@ -162,6 +162,32 @@ REV[6 - 1][12].push({
   'password' : 'yamada'
 });
 
+REV[7 - 1][12] = [];
+REV[7 - 1][12].push({
+  'name' : '田中裕太',
+  'depart' : '営業部',
+  'pos'  : '係長',
+  'sheet' : 2,
+  'date' : '2015-07-05 19:32',
+  'password' : 'tanaka'
+});
+REV[7 - 1][12].push({
+  'name' : '佐藤祐樹',
+  'depart' : 'システム開発部',
+  'pos'  : '',
+  'sheet' : 1,
+  'date' : '2015-07-05 20:32',
+  'password' : 'sato'
+});
+REV[7 - 1][12].push({
+  'name' : '山田愛',
+  'depart' : '',
+  'pos'  : '',
+  'sheet' : 5,
+  'date' : '2015-07-10 12:10',
+  'password' : 'yamada'
+});
+
 // シート数
 var SHEET = 5;
 // 最大予約人数
@@ -529,7 +555,7 @@ function gameInitial_admin() {
       str += '予約者名：' + name + '\n';
       str += '予約席数：' + rev['sheet'] + '席\n';
       str += '登録日：' + rev['date'] + '\n\n';
-      str += 'この予約を本当に削除してもよろしいですか？';
+      str += 'この予約を本当に削除しますか？';
       if(confirm(str)) {
         REV[date['month']][date['day']].splice(key, 1);
         setRevinfo_admin(date, $('#revinfo'));
