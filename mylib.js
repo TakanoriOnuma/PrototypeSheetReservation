@@ -1221,12 +1221,25 @@ function setRegGameinfo2() {
         }
         var pos = $(this).parent().prev().prev().position();
         var height = $(this).parent().prev().prev().outerHeight();
-        $('#notice-rev-info')
-          .css({
-            top : pos.top + height,
-            left : pos.left
-          })
-          .show();
+        var revHeight = $('#notice-rev-info').outerHeight();
+        var documentHeight = $('body').outerHeight();
+        alert(documentHeight + ', ' + (pos.top + height) + ', ' + revHeight);
+        if(pos.top + height + revHeight > documentHeight - 30) {
+          $('#notice-rev-info')
+            .css({
+              top : pos.top - revHeight,
+              left : pos.left
+            })
+            .show();
+        }
+        else {
+          $('#notice-rev-info')
+            .css({
+              top : pos.top + height,
+              left : pos.left
+            })
+            .show();
+        }
       }
     }
     else if($(this).val() === '保存') {
