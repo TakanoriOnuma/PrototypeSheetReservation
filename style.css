@@ -1,4 +1,5 @@
 body {
+/*  font-family: "ＭＳ Ｐゴシック"; */
   margin: 0;
 }
 
@@ -327,6 +328,7 @@ table#revinfo {
 }
 
 #monthfilter, #dayfilter, #namefilter, #oppfilter, #hourfilter {
+  text-align: center;
   background-color: lightgray;
   border: none;
   width: 100%;
@@ -335,8 +337,13 @@ table#revinfo {
 }
 
 #monthfilter option, #dayfilter option, #namefilter option, #oppfilter option, #hourfilter option {
+  text-align: left;
   background-color: white;
   font-weight: normal;
+}
+
+#oppfilter optgroup {
+  text-align: left;
 }
 
 optgroup:disabled {
